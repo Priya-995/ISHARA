@@ -19,6 +19,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [disabilityType, setDisabilityType] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { signup, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const SignUp = () => {
 
     setIsLoading(true);
     try {
-      await signup(email, password, name);
+      await signup(email, password, name, disabilityType);
       toast.success("Account created successfully!");
       navigate('/dashboard');
     } catch (error: any) {
@@ -93,6 +94,25 @@ const SignUp = () => {
                     required
                     className="w-full"
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="disabilityType" className="text-sm font-medium">
+                    Disability Type (Optional)
+                  </Label>
+                  <Select onValueChange={setDisabilityType} value={disabilityType}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select your disability type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">None</SelectItem>
+                      <SelectItem value="deaf">Deaf</SelectItem>
+                      <SelectItem value="mute">Mute</SelectItem>
+                      <SelectItem value="blind">Blind</SelectItem>
+                      <SelectItem value="deaf-mute">Deaf-Mute</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">

@@ -8,14 +8,18 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
+  updateProfile as updateFirebaseProfile,
 } from 'firebase/auth';
-import { doc, setDoc, getDoc, DocumentData } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import { doc, setDoc, getDoc, DocumentData, updateDoc } from 'firebase/firestore';
+import { auth, db, storage } from '../firebase';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 interface User {
   uid: string;
   email: string | null;
   displayName: string | null;
+  photoURL: string | null;
+  disabilityType: string | null;
   // Add other user properties as needed
 }
 
@@ -24,8 +28,9 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  signup: (email: string, password: string, name: string) => Promise<void>;
+  signup: (email: string, password: string, name: string, disabilityType: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
+  updateProfile: (data: { displayName: string; disabilityType: string; photoFile?: File }) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -46,10 +51,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
             displayName: firebaseUser.displayName,
+            photoURL: firebaseUser.photoURL,
+            disabilityType: null, // Google sign-in doesn't provide this
           };
           await setDoc(doc(db, "users", firebaseUser.uid), {
             email: firebaseUser.email,
             displayName: firebaseUser.displayName,
+            photoURL: firebaseUser.photoURL,
           });
           setUser(newUser);
         }
@@ -66,12 +74,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await signInWithEmailAndPassword(auth, email, password);
   };
 
-  const signup = async (email: string, password: string, name: string) => {
+  const signup = async (email: string, password: string, name: string, disabilityType: string) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = userCredential.user;
     await setDoc(doc(db, "users", firebaseUser.uid), {
       displayName: name,
       email: email,
+      disabilityType: disabilityType,
     });
   };
 
@@ -84,6 +93,55 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await signOut(auth);
   };
 
+  const updateProfile = async (data: { displayName: string; disabilityType: string; photoFile?: File }) => {
+    if (!user) throw new Error("No user is signed in to update profile.");
+
+    const updates: {
+      displayName?: string;
+      disabilityType?: string;
+      photoURL?: string;
+    } = {};
+
+    if (data.photoFile) {
+      const storageRef = ref(storage, `avatars/${user.uid}/${data.photoFile.name}`);
+      const snapshot = await uploadBytes(storageRef, data.photoFile);
+      const newPhotoURL = await getDownloadURL(snapshot.ref);
+      if (newPhotoURL && newPhotoURL !== user.photoURL) {
+        updates.photoURL = newPhotoURL;
+      }
+    }
+
+    if (data.displayName !== user.displayName) {
+      updates.displayName = data.displayName;
+    }
+
+    if (data.disabilityType !== user.disabilityType) {
+      updates.disabilityType = data.disabilityType;
+    }
+
+    if (Object.keys(updates).length > 0) {
+      const userDocRef = doc(db, "users", user.uid);
+
+      const updatePromises = [];
+      updatePromises.push(updateDoc(userDocRef, updates));
+
+      const authUpdates: { displayName?: string; photoURL?: string } = {};
+      if (updates.displayName !== undefined) authUpdates.displayName = updates.displayName;
+      if (updates.photoURL !== undefined) authUpdates.photoURL = updates.photoURL;
+
+      if (auth.currentUser && Object.keys(authUpdates).length > 0) {
+        updatePromises.push(updateFirebaseProfile(auth.currentUser, authUpdates));
+      }
+
+      await Promise.all(updatePromises);
+
+      setUser(prevUser => {
+        if (!prevUser) return null;
+        return { ...prevUser, ...updates };
+      });
+    }
+  };
+
   const value: AuthContextType = {
     user,
     loading,
@@ -91,6 +149,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     logout,
     signup,
     signInWithGoogle,
+    updateProfile,
   };
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
