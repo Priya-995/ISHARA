@@ -1,5 +1,5 @@
-
 import type { Config } from "tailwindcss";
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 export default {
 	darkMode: ["class"],
@@ -19,6 +19,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ["Inter", ...fontFamily.sans],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -53,19 +56,11 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				},
-				'ishara-blue': '#1e3a8a',
-				'ishara-teal': '#0d9488',
-				'ishara-orange': '#f97316',
+				'ishara-blue': '#0052FF',
+				'ishara-teal': '#00C2B8',
+				'ishara-orange': '#FF7A00',
+				'ishara-dark-blue': '#002D6E',
+				'ishara-gradient': 'linear-gradient(90deg, #0052FF 0%, #00C2B8 100%)',
 				'ishara-light-blue': '#3b82f6',
 				'ishara-gradient-start': '#1e3a8a',
 				'ishara-gradient-end': '#0d9488'

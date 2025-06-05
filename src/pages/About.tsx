@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -71,6 +70,35 @@ const About = () => {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+        
+        {/* Meet the Team Section */}
+        <div className="mb-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet the Team</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              The passionate individuals behind ISHARA's mission.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            <div className="text-center">
+              <img src="/1703060891503-01.jpeg" alt="Founder" className="w-48 h-48 mx-auto rounded-full object-cover shadow-lg mb-6" />
+              <h3 className="text-2xl font-semibold mb-2">Krishnav Talukdar</h3>
+              <p className="text-ishara-blue font-medium mb-3">Founder & CEO</p>
+              <p className="text-gray-600">
+                A visionary leader with a passion for leveraging technology to create a more inclusive world for the deaf community.
+              </p>
+            </div>
+            
+            <div className="text-center">
+                <img src="/1745341270888.jpeg" alt="Co-Founder" className="w-48 h-48 mx-auto rounded-full object-cover shadow-lg mb-6" />
+                <h3 className="text-2xl font-semibold mb-2">Karan Singh Negi</h3>
+                <p className="text-ishara-teal font-medium mb-3">Co-Founder & CTO</p>
+                <p className="text-gray-600">
+                  The technical architect behind our cutting-edge sign language translation technology, dedicated to building accessible solutions.
+                </p>
+            </div>
           </div>
         </div>
         

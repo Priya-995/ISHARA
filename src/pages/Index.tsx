@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { motion } from 'framer-motion';
 import { 
   Play, 
   Users, 
@@ -21,6 +22,17 @@ import {
   Shield
 } from 'lucide-react';
 
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+  hover: { scale: 1.05, boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)", transition: { duration: 0.3 } }
+};
+
 const Index = () => {
   return (
     <div className="min-h-screen bg-white">
@@ -30,18 +42,34 @@ const Index = () => {
       <section id="home" className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-teal-50 py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            <motion.div 
+              className="text-center lg:text-left"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: { transition: { staggerChildren: 0.2 } }
+              }}
+            >
+              <motion.h1 
+                className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
+                variants={sectionVariants}
+              >
                 Breaking Barriers with{' '}
                 <span className="bg-ishara-gradient bg-clip-text text-transparent">
                   Sign Language Translation
                 </span>
-              </h1>
-              <p className="text-xl text-gray-600 mb-8 max-w-2xl">
+              </motion.h1>
+              <motion.p 
+                className="text-xl text-gray-600 mb-8 max-w-2xl"
+                variants={sectionVariants}
+              >
                 Ishara empowers the deaf and hard-of-hearing community with real-time ISL translation, 
                 making every conversation accessible and inclusive.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              </motion.p>
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                variants={sectionVariants}
+              >
                 <Link to="/signup">
                   <Button className="bg-ishara-gradient hover:opacity-90 text-white px-8 py-3 text-lg">
                     Try Ishara Free
@@ -52,14 +80,21 @@ const Index = () => {
                   <Play className="mr-2 h-5 w-5" />
                   Watch Demo
                 </Button>
-              </div>
-              <p className="text-sm text-gray-500 mt-4">
+              </motion.div>
+              <motion.p 
+                className="text-sm text-gray-500 mt-4"
+                variants={sectionVariants}
+              >
                 <Users className="inline h-4 w-4 mr-1" />
                 Join 10,000+ users breaking communication barriers
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
             
-            <div className="relative">
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut" } }}
+            >
               <div className="bg-ishara-gradient rounded-2xl p-8 text-white animate-float">
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="bg-white/20 rounded-lg p-4 text-center">
@@ -79,13 +114,20 @@ const Index = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16">
+      <motion.section 
+        id="features" 
+        className="py-16"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
@@ -97,41 +139,54 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="p-8 hover:shadow-xl transition-shadow border-none shadow-lg">
-              <CardContent className="p-0">
-                <div className="bg-ishara-gradient rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Zap className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Real-Time Translation</h3>
-                <p className="text-gray-600">Instantly convert ISL gestures to text and speech, and vice-versa.</p>
-              </CardContent>
-            </Card>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="p-8 h-full hover:shadow-xl transition-shadow border-none shadow-lg">
+                <CardContent className="p-0 text-center">
+                  <div className="bg-ishara-gradient rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <Zap className="h-8 w-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Real-Time Translation</h3>
+                  <p className="text-gray-600">Instantly convert ISL gestures to text and speech, and vice-versa.</p>
+                </CardContent>
+              </Card>
+            </motion.div>
             
-            <Card className="p-8 hover:shadow-xl transition-shadow border-none shadow-lg">
-              <CardContent className="p-0">
-                <div className="bg-ishara-gradient rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Camera className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Multi-Platform Support</h3>
-                <p className="text-gray-600">Use Ishara on your phone, tablet, or desktop computer.</p>
-              </CardContent>
-            </Card>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="p-8 h-full hover:shadow-xl transition-shadow border-none shadow-lg">
+                <CardContent className="p-0 text-center">
+                  <div className="bg-ishara-gradient rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <Camera className="h-8 w-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Multi-Platform Support</h3>
+                  <p className="text-gray-600">Use Ishara on your phone, tablet, or desktop computer.</p>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <Card className="p-8 hover:shadow-xl transition-shadow border-none shadow-lg">
-              <CardContent className="p-0">
-                <div className="bg-ishara-gradient rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <BookOpen className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Learning Resources</h3>
-                <p className="text-gray-600">Access a library of ISL signs, phrases, and tutorials.</p>
-              </CardContent>
-            </Card>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="p-8 h-full hover:shadow-xl transition-shadow border-none shadow-lg">
+                <CardContent className="p-0 text-center">
+                  <div className="bg-ishara-gradient rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <BookOpen className="h-8 w-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Learning Resources</h3>
+                  <p className="text-gray-600">Access a library of ISL signs, phrases, and tutorials.</p>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Use Cases Section */}
-      <section id="use-cases" className="py-16 bg-gray-50">
+      <motion.section 
+        id="use-cases" 
+        className="py-16 bg-gray-50"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
@@ -142,27 +197,40 @@ const Index = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="p-6 text-center">
-              <Users className="h-10 w-10 text-ishara-blue mx-auto mb-4" />
-              <h3 className="font-semibold text-lg mb-2">Daily Conversations</h3>
-              <p className="text-sm text-gray-600">Connect with family, friends, and colleagues effortlessly.</p>
-            </Card>
-            <Card className="p-6 text-center">
-              <BookOpen className="h-10 w-10 text-ishara-teal mx-auto mb-4" />
-              <h3 className="font-semibold text-lg mb-2">Education</h3>
-              <p className="text-sm text-gray-600">Participate in classroom discussions and lectures seamlessly.</p>
-            </Card>
-            <Card className="p-6 text-center">
-              <Heart className="h-10 w-10 text-ishara-orange mx-auto mb-4" />
-              <h3 className="font-semibold text-lg mb-2">Healthcare</h3>
-              <p className="text-sm text-gray-600">Communicate effectively with doctors and healthcare professionals.</p>
-            </Card>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="p-6 text-center h-full">
+                <Users className="h-10 w-10 text-ishara-blue mx-auto mb-4" />
+                <h3 className="font-semibold text-lg mb-2">Daily Conversations</h3>
+                <p className="text-sm text-gray-600">Connect with family, friends, and colleagues effortlessly.</p>
+              </Card>
+            </motion.div>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="p-6 text-center h-full">
+                <BookOpen className="h-10 w-10 text-ishara-teal mx-auto mb-4" />
+                <h3 className="font-semibold text-lg mb-2">Education</h3>
+                <p className="text-sm text-gray-600">Participate in classroom discussions and lectures seamlessly.</p>
+              </Card>
+            </motion.div>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="p-6 text-center h-full">
+                <Heart className="h-10 w-10 text-ishara-orange mx-auto mb-4" />
+                <h3 className="font-semibold text-lg mb-2">Healthcare</h3>
+                <p className="text-sm text-gray-600">Communicate effectively with doctors and healthcare professionals.</p>
+              </Card>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Impact Section */}
-      <section id="impact" className="py-16">
+      <motion.section 
+        id="impact" 
+        className="py-16"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
@@ -174,35 +242,48 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center p-8 border-none shadow-lg hover:shadow-xl transition-shadow">
-              <CardContent className="p-0">
-                <div className="text-4xl font-bold text-ishara-blue mb-2">18M+</div>
-                <p className="text-gray-600 mb-2">Deaf & Hard-of-Hearing Indians</p>
-                <p className="text-sm text-gray-500">Who rely on ISL as their primary language</p>
-              </CardContent>
-            </Card>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="text-center p-8 border-none shadow-lg h-full">
+                <CardContent className="p-0">
+                  <div className="text-4xl font-bold text-ishara-blue mb-2">18M+</div>
+                  <p className="text-gray-600 mb-2">Deaf & Hard-of-Hearing Indians</p>
+                  <p className="text-sm text-gray-500">Who rely on ISL as their primary language</p>
+                </CardContent>
+              </Card>
+            </motion.div>
             
-            <Card className="text-center p-8 border-none shadow-lg hover:shadow-xl transition-shadow">
-              <CardContent className="p-0">
-                <div className="text-4xl font-bold text-ishara-orange mb-2">250+</div>
-                <p className="text-gray-600 mb-2">Certified ISL Interpreters</p>
-                <p className="text-sm text-gray-500">Nationwide shortage creating barriers</p>
-              </CardContent>
-            </Card>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="text-center p-8 border-none shadow-lg h-full">
+                <CardContent className="p-0">
+                  <div className="text-4xl font-bold text-ishara-orange mb-2">250+</div>
+                  <p className="text-gray-600 mb-2">Certified ISL Interpreters</p>
+                  <p className="text-sm text-gray-500">Nationwide shortage creating barriers</p>
+                </CardContent>
+              </Card>
+            </motion.div>
             
-            <Card className="text-center p-8 border-none shadow-lg hover:shadow-xl transition-shadow">
-              <CardContent className="p-0">
-                <div className="text-4xl font-bold text-ishara-teal mb-2">85%</div>
-                <p className="text-gray-600 mb-2">Face Employment Barriers</p>
-                <p className="text-sm text-gray-500">Due to communication challenges</p>
-              </CardContent>
-            </Card>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="text-center p-8 border-none shadow-lg h-full">
+                <CardContent className="p-0">
+                  <div className="text-4xl font-bold text-ishara-teal mb-2">85%</div>
+                  <p className="text-gray-600 mb-2">Face Employment Barriers</p>
+                  <p className="text-sm text-gray-500">Due to communication challenges</p>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-16 bg-gray-50">
+      <motion.section 
+        id="pricing" 
+        className="py-16 bg-gray-50"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
@@ -212,31 +293,44 @@ const Index = () => {
               Simple, affordable pricing for individuals and organizations.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="p-8 text-center">
-              <h3 className="text-2xl font-bold mb-4">Basic</h3>
-              <p className="text-4xl font-bold mb-4">Free</p>
-              <p className="text-gray-600 mb-6">For basic personal use</p>
-              <Button>Get Started</Button>
-            </Card>
-            <Card className="p-8 text-center border-2 border-ishara-blue">
-              <h3 className="text-2xl font-bold mb-4">Pro</h3>
-              <p className="text-4xl font-bold mb-4">₹499<span className="text-lg">/mo</span></p>
-              <p className="text-gray-600 mb-6">For professionals and power users</p>
-              <Button className="bg-ishara-gradient text-white">Choose Pro</Button>
-            </Card>
-            <Card className="p-8 text-center">
-              <h3 className="text-2xl font-bold mb-4">Enterprise</h3>
-              <p className="text-4xl font-bold mb-4">Custom</p>
-              <p className="text-gray-600 mb-6">For teams and organizations</p>
-              <Button>Contact Us</Button>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+            <motion.div variants={cardVariants} whileHover="hover" className="h-full">
+              <Card className="p-8 text-center h-full flex flex-col">
+                <h3 className="text-2xl font-bold mb-4">Basic</h3>
+                <p className="text-4xl font-bold mb-4">Free</p>
+                <p className="text-gray-600 mb-6 flex-grow">For basic personal use</p>
+                <Button>Get Started</Button>
+              </Card>
+            </motion.div>
+            <motion.div variants={cardVariants} whileHover="hover" className="h-full">
+              <Card className="p-8 text-center border-2 border-ishara-blue h-full flex flex-col">
+                <h3 className="text-2xl font-bold mb-4">Pro</h3>
+                <p className="text-4xl font-bold mb-4">₹499<span className="text-lg">/mo</span></p>
+                <p className="text-gray-600 mb-6 flex-grow">For professionals and power users</p>
+                <Button className="bg-ishara-gradient text-white">Choose Pro</Button>
+              </Card>
+            </motion.div>
+            <motion.div variants={cardVariants} whileHover="hover" className="h-full">
+              <Card className="p-8 text-center h-full flex flex-col">
+                <h3 className="text-2xl font-bold mb-4">Enterprise</h3>
+                <p className="text-4xl font-bold mb-4">Custom</p>
+                <p className="text-gray-600 mb-6 flex-grow">For teams and organizations</p>
+                <Button>Contact Us</Button>
+              </Card>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* About Section */}
-      <section id="about" className="py-16">
+      <motion.section 
+        id="about" 
+        className="py-16"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -278,7 +372,7 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Call to Action Section */}
       <section className="py-16 bg-ishara-gradient">
