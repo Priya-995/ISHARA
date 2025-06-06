@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+tensorflow
+scikit-learn
+numpy
+python-multipart
+googletrans==4.0.0-rc1 

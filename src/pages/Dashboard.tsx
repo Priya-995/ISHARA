@@ -1,11 +1,8 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   Camera, 
@@ -19,7 +16,8 @@ import {
   Calendar,
   Settings,
   ArrowRight,
-  Play
+  Play,
+  Headphones
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -46,7 +44,6 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
       
       <div className="container mx-auto px-4 py-8">
         {/* Welcome Header */}
@@ -60,7 +57,7 @@ const Dashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Link to="/translator">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer border-none shadow-md">
               <CardContent className="p-6">
@@ -71,6 +68,22 @@ const Dashboard = () => {
                   <div>
                     <h3 className="font-semibold text-lg">Start Translating</h3>
                     <p className="text-gray-600 text-sm">Real-time ISL translation</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link to="/talk">
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer border-none shadow-md">
+              <CardContent className="p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="bg-purple-600 rounded-lg p-3">
+                    <Headphones className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">Start Talking</h3>
+                    <p className="text-gray-600 text-sm">Convert speech to ISL</p>
                   </div>
                 </div>
               </CardContent>
@@ -319,8 +332,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

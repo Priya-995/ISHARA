@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
 import { 
   Play, 
@@ -35,11 +33,10 @@ const cardVariants = {
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-white">
-      <Navigation />
+    <div className="min-h-screen bg-background">
       
       {/* Hero Section */}
-      <section id="home" className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-teal-50 py-16 lg:py-24">
+      <section id="home" className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-background to-teal-50 py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div 
@@ -181,7 +178,7 @@ const Index = () => {
       {/* Use Cases Section */}
       <motion.section 
         id="use-cases" 
-        className="py-16 bg-gray-50"
+        className="py-16 bg-background"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
@@ -278,7 +275,7 @@ const Index = () => {
       {/* Pricing Section */}
       <motion.section 
         id="pricing" 
-        className="py-16 bg-gray-50"
+        className="py-16 bg-background"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
@@ -375,24 +372,29 @@ const Index = () => {
       </motion.section>
 
       {/* Call to Action Section */}
-      <section className="py-16 bg-ishara-gradient">
-        <div className="container mx-auto px-4 text-center text-white">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            Ready to Bridge the Gap?
-          </h2>
-          <p className="text-xl mb-8">
-            Join Ishara today and be a part of a more inclusive world.
-          </p>
-          <Link to="/signup">
-            <Button size="lg" className="bg-white text-ishara-blue hover:bg-gray-200">
-              Sign Up Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+      <motion.section 
+        className="bg-ishara-dark-blue text-white"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+        variants={sectionVariants}
+      >
+        <div className="container mx-auto px-4 py-16">
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4">Ready to Start Communicating?</h2>
+            <p className="text-blue-200 mb-8">
+              Join thousands of users who are already breaking down communication barriers with Ishara. 
+              Get started for free today.
+            </p>
+            <Link to="/signup">
+              <Button className="bg-white text-ishara-blue hover:bg-gray-200 px-8 py-3 text-lg font-semibold">
+                Sign Up Now
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
-      </section>
-
-      <Footer />
+      </motion.section>
     </div>
   );
 };

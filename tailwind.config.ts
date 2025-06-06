@@ -20,41 +20,41 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ["Inter", ...fontFamily.sans],
+				sans: ["var(--font-sans)", ...fontFamily.sans],
 			},
 			colors: {
-				border: 'hsl(var(--border))',
-				input: 'hsl(var(--input))',
-				ring: 'hsl(var(--ring))',
-				background: 'hsl(var(--background))',
-				foreground: 'hsl(var(--foreground))',
+				border: "hsl(var(--border))",
+				input: "hsl(var(--input))",
+				ring: "hsl(var(--ring))",
+				background: "hsl(var(--background))",
+				foreground: "hsl(var(--foreground))",
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: "hsl(var(--primary))",
+					foreground: "hsl(var(--primary-foreground))",
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					DEFAULT: "hsl(var(--secondary))",
+					foreground: "hsl(var(--secondary-foreground))",
 				},
 				destructive: {
-					DEFAULT: 'hsl(var(--destructive))',
-					foreground: 'hsl(var(--destructive-foreground))'
+					DEFAULT: "hsl(var(--destructive))",
+					foreground: "hsl(var(--destructive-foreground))",
 				},
 				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
+					DEFAULT: "hsl(var(--muted))",
+					foreground: "hsl(var(--muted-foreground))",
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					DEFAULT: "hsl(var(--accent))",
+					foreground: "hsl(var(--accent-foreground))",
 				},
 				popover: {
-					DEFAULT: 'hsl(var(--popover))',
-					foreground: 'hsl(var(--popover-foreground))'
+					DEFAULT: "hsl(var(--popover))",
+					foreground: "hsl(var(--popover-foreground))",
 				},
 				card: {
-					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
+					DEFAULT: "hsl(var(--card))",
+					foreground: "hsl(var(--card-foreground))",
 				},
 				'ishara-blue': '#0052FF',
 				'ishara-teal': '#00C2B8',
@@ -66,7 +66,7 @@ export default {
 				'ishara-gradient-end': '#0d9488'
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
+				lg: `var(--radius)`,
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
@@ -114,7 +114,7 @@ export default {
 				'float': 'float 3s ease-in-out infinite'
 			},
 			backgroundImage: {
-				'ishara-gradient': 'linear-gradient(135deg, #1e3a8a 0%, #0d9488 100%)',
+				'ishara-gradient': 'linear-gradient(90deg, #0052FF 0%, #00C2B8 100%)',
 				'ishara-gradient-light': 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)'
 			}
 		}

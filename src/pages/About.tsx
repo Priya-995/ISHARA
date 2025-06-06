@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { 
   HandHeart, 
   Globe, 
@@ -20,7 +18,6 @@ import {
 const About = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
       
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
@@ -425,7 +422,6 @@ const About = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

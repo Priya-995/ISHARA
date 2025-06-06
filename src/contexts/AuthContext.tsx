@@ -14,10 +14,10 @@ import { doc, setDoc, getDoc, DocumentData, updateDoc } from 'firebase/firestore
 import { auth, db, storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
-interface User {
+export interface User {
   uid: string;
   email: string | null;
-  displayName: string | null;
+  name: string | null;
   photoURL: string | null;
   disabilityType: string | null;
   // Add other user properties as needed
@@ -50,13 +50,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
            const newUser: User = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
-            displayName: firebaseUser.displayName,
+            name: firebaseUser.displayName,
             photoURL: firebaseUser.photoURL,
             disabilityType: null, // Google sign-in doesn't provide this
           };
           await setDoc(doc(db, "users", firebaseUser.uid), {
             email: firebaseUser.email,
-            displayName: firebaseUser.displayName,
+            name: firebaseUser.displayName,
             photoURL: firebaseUser.photoURL,
           });
           setUser(newUser);
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = userCredential.user;
     await setDoc(doc(db, "users", firebaseUser.uid), {
-      displayName: name,
+      name: name,
       email: email,
       disabilityType: disabilityType,
     });
@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (!user) throw new Error("No user is signed in to update profile.");
 
     const updates: {
-      displayName?: string;
+      name?: string;
       disabilityType?: string;
       photoURL?: string;
     } = {};
@@ -111,8 +111,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    if (data.displayName !== user.displayName) {
-      updates.displayName = data.displayName;
+    if (data.name !== user.name) {
+      updates.name = data.name;
     }
 
     if (data.disabilityType !== user.disabilityType) {
@@ -126,10 +126,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       updatePromises.push(updateDoc(userDocRef, updates));
 
       const authUpdates: { displayName?: string; photoURL?: string } = {};
-      if (updates.displayName !== undefined) authUpdates.displayName = updates.displayName;
+      if (updates.name !== undefined) authUpdates.displayName = updates.name;
       if (updates.photoURL !== undefined) authUpdates.photoURL = updates.photoURL;
 
-      if (auth.currentUser && Object.keys(authUpdates).length > 0) {
+      if (Object.keys(authUpdates).length > 0 && auth.currentUser) {
         updatePromises.push(updateFirebaseProfile(auth.currentUser, authUpdates));
       }
 

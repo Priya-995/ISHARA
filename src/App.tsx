@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -16,21 +16,26 @@ import Support from "./pages/Support";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import { AuthProvider } from "./contexts/AuthContext";
+import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
+import Translator from "./pages/Translator";
+import Talk from "./pages/Talk";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+      <div className="flex flex-col min-h-screen bg-background font-sans antialiased">
+        <Navigation />
+        <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/translator" element={<Translator />} />
+            <Route path="/talk" element={<Talk />} />
             <Route path="/features" element={<Features />} />
             <Route path="/use-cases" element={<UseCases />} />
             <Route path="/impact" element={<Impact />} />
@@ -40,8 +45,9 @@ const App = () => (
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+        </main>
+        <Footer />
+      </div>
     </AuthProvider>
   </QueryClientProvider>
 );

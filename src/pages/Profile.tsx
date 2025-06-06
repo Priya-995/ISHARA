@@ -1,49 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import React, { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
-import { Camera, User, Mail, Accessibility } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Switch } from '@/components/ui/switch';
+import { toast } from '@/components/ui/use-toast';
+import { motion } from 'framer-motion';
+import { 
+  User, 
+  Mail,
+  Pencil, 
+  Settings, 
+  Moon, 
+  Volume2, 
+  Save
+} from 'lucide-react';
 
 const Profile = () => {
   const { user, updateProfile } = useAuth();
-  const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    name: user?.name || '',
+    disabilityType: user?.disabilityType || '',
+    photo: null as File | null,
+  });
+  const [photoPreview, setPhotoPreview] = useState<string | null>(user?.photoURL || null);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    setFormData(prev => ({ ...prev, disabilityType: value }));
+  };
   
-  const [displayName, setDisplayName] = useState('');
-  const [disabilityType, setDisabilityType] = useState('');
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      setDisplayName(user.displayName || '');
-      setDisabilityType(user.disabilityType || 'none');
-      setPhotoPreview(user.photoURL || null);
-    }
-  }, [user]);
-
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
-
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setPhotoFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setFormData(prev => ({ ...prev, photo: file }));
+      setPhotoPreview(URL.createObjectURL(file));
     }
   };
 
@@ -51,115 +49,188 @@ const Profile = () => {
     e.preventDefault();
     if (!user) return;
 
-    const hasChanged =
-      displayName !== (user.displayName || '') ||
-      disabilityType !== (user.disabilityType || 'none') ||
-      photoFile !== null;
-
-    if (!hasChanged) {
-      toast.info('No changes to update.');
-      return;
-    }
-
-    setIsLoading(true);
     try {
       await updateProfile({
-        displayName,
-        disabilityType,
-        photoFile: photoFile || undefined,
+        displayName: formData.name,
+        disabilityType: formData.disabilityType,
+        photoFile: formData.photo || undefined
       });
-      toast.success('Profile updated successfully!');
-      setPhotoFile(null);
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to update profile.');
-    } finally {
-      setIsLoading(false);
+      toast({
+        title: 'Profile Updated',
+        description: 'Your profile has been successfully updated.',
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast({
+        title: 'Error',
+        description: 'Failed to update profile. Please try again.',
+        variant: 'destructive',
+      });
     }
   };
 
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation />
-      
-      <main className="py-10">
-        <div className="container mx-auto px-4">
-          <div className="relative h-48 bg-ishara-gradient rounded-lg">
-            <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
-              <Avatar className="h-32 w-32 border-4 border-white shadow-lg">
-                <AvatarImage src={photoPreview || "/avatar-placeholder.png"} alt={displayName || "User"} />
-                <AvatarFallback className="text-4xl">{displayName ? displayName.charAt(0) : 'U'}</AvatarFallback>
-              </Avatar>
-              <Input id="photoUpload" type="file" onChange={handlePhotoChange} className="hidden" />
-              <Button 
-                size="icon" 
-                className="absolute bottom-2 right-2 rounded-full h-8 w-8 bg-white/80 hover:bg-white"
-                onClick={() => document.getElementById('photoUpload')?.click()}
-              >
-                <Camera className="h-4 w-4 text-gray-700" />
-              </Button>
-            </div>
-          </div>
-          
-          <div className="text-center mt-16">
-            <h1 className="text-3xl font-bold">{displayName}</h1>
-            <p className="text-gray-500">{user.email}</p>
-          </div>
+    <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-4xl sm:text-5xl font-bold text-ishara-blue">Profile</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
+            Manage your account settings and track your ISL learning progress
+          </p>
+        </motion.div>
 
-          <div className="max-w-2xl mx-auto mt-10">
-            <Card className="shadow-xl border-none">
-              <CardHeader>
-                <CardTitle>Edit Profile</CardTitle>
-                <CardDescription>Update your personal information here.</CardDescription>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Panel: Profile Card */}
+          <motion.div 
+            className="lg:col-span-1"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Card className="shadow-lg h-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center"><User className="mr-2"/> Profile</CardTitle>
+                <Button variant="ghost" size="icon" onClick={() => setIsEditing(!isEditing)}>
+                  <Pencil className="h-5 w-5"/>
+                </Button>
               </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
-                    <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                        <Input id="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} className="pl-10 h-12" />
+              <CardContent className="text-center">
+                <Avatar className="w-28 h-28 mx-auto mb-4 border-4 border-ishara-blue">
+                  <AvatarImage src={photoPreview || user.photoURL || undefined} alt={user.name || ''} />
+                  <AvatarFallback>{user.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                </Avatar>
+                {isEditing ? (
+                  <div className="mb-4">
+                    <Input id="photo-upload" type="file" accept="image/*" onChange={handlePhotoChange} className="hidden" />
+                    <label htmlFor="photo-upload" className="cursor-pointer text-sm text-ishara-blue hover:underline">Change Photo</label>
+                  </div>
+                ) : (
+                  <>
+                    <div className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+                      Intermediate
+                    </div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Member since January 2024</p>
+                  </>
+                )}
+                
+                <div className="text-left mt-8 space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Full Name</label>
+                    {isEditing ? (
+                      <Input name="name" value={formData.name} onChange={handleInputChange} />
+                    ) : (
+                      <p className="text-lg">{user.name}</p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Email</label>
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-4 w-4 text-gray-400" />
+                      <p className="text-lg">{user.email}</p>
                     </div>
                   </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
-                    <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                        <Input id="email" value={user.email || ''} readOnly className="pl-10 h-12 bg-gray-100" />
-                    </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Disability Type</label>
+                    {isEditing ? (
+                      <Select value={formData.disabilityType || ''} onValueChange={handleSelectChange}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select disability type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Deaf">Deaf</SelectItem>
+                          <SelectItem value="Hard of Hearing">Hard of Hearing</SelectItem>
+                          <SelectItem value="Mute">Mute</SelectItem>
+                          <SelectItem value="Deaf-Mute">Deaf-Mute</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                          <SelectItem value="None">None</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <p className="text-lg">{user.disabilityType || 'Not specified'}</p>
+                    )}
                   </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="disabilityType">Disability Type</Label>
-                    <div className="relative">
-                        <Accessibility className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                        <Select onValueChange={setDisabilityType} value={disabilityType}>
-                            <SelectTrigger className="w-full pl-10 h-12">
-                                <SelectValue placeholder="Select your disability type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="none">None</SelectItem>
-                                <SelectItem value="deaf">Deaf</SelectItem>
-                                <SelectItem value="mute">Mute</SelectItem>
-                                <SelectItem value="blind">Blind</SelectItem>
-                                <SelectItem value="deaf-mute">Deaf-Mute</SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                  </div>
-
-                  <Button type="submit" className="w-full bg-ishara-gradient text-white font-bold py-3 text-base" disabled={isLoading}>
-                    {isLoading ? 'Updating...' : 'Save Changes'}
-                  </Button>
-                </form>
+                </div>
+                {isEditing && (
+                  <Button onClick={handleSubmit} className="w-full mt-6 bg-ishara-gradient text-white">Save Changes</Button>
+                )}
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
+
+          {/* Right Panel: Stats and Settings */}
+          <motion.div 
+            className="lg:col-span-2 space-y-8"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Card className="shadow-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+              <CardHeader>
+                <CardTitle>Learning Statistics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                  <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                    <p className="text-3xl font-bold text-blue-500">127</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Signs Learned</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20">
+                    <p className="text-3xl font-bold text-green-500">23</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Favorites</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-purple-50 dark:bg-purple-900/20">
+                    <p className="text-3xl font-bold text-purple-500">145</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Minutes Practiced</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-orange-50 dark:bg-orange-900/20">
+                    <p className="text-3xl font-bold text-orange-500">3</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Achievements</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+              <CardHeader>
+                <CardTitle className="flex items-center"><Settings className="mr-2"/> Settings</CardTitle>
+              </CardHeader>
+              <CardContent className="divide-y divide-gray-200 dark:divide-gray-700">
+                <div className="flex items-center justify-between py-4">
+                  <div>
+                    <h3 className="font-medium flex items-center"><Moon className="mr-3 h-5 w-5"/> Dark Mode</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Toggle dark theme</p>
+                  </div>
+                  <Switch />
+                </div>
+                <div className="flex items-center justify-between py-4">
+                  <div>
+                    <h3 className="font-medium flex items-center"><Volume2 className="mr-3 h-5 w-5"/> Voice Output</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Enable text-to-speech</p>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+                <div className="flex items-center justify-between py-4">
+                  <div>
+                    <h3 className="font-medium flex items-center"><Save className="mr-3 h-5 w-5"/> Auto-save Translations</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Automatically save your translations</p>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
-      </main>
-      
-      <Footer />
+      </div>
     </div>
   );
 };
