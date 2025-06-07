@@ -8,7 +8,9 @@ const Translator = () => {
   const {
     videoRef,
     canvasRef,
-    detectedWord,
+    rawPrediction,
+    confirmedWord,
+    currentSpelledWord,
     buildingSentence,
     finalTranslation,
     suggestions,
@@ -98,11 +100,19 @@ const Translator = () => {
                   <p className={`mt-1 text-lg ${isError ? 'text-red-400' : 'text-gray-300'}`}>{detectionStatus}</p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Detected Word</h3>
-                  <p className="mt-1 text-2xl font-semibold text-purple-400">{detectedWord || '...'}</p>
+                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Predicted Sign</h3>
+                  <p className="mt-1 text-2xl font-semibold text-yellow-400">{rawPrediction || '...'}</p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Building Sentence</h3>
+                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Confirmed Sign</h3>
+                  <p className="mt-1 text-2xl font-semibold text-purple-400">{confirmedWord || '...'}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Current Spelled Word</h3>
+                  <p className="mt-1 text-lg text-gray-300 h-8">{currentSpelledWord}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Current Sentence</h3>
                   <p className="mt-1 text-lg text-gray-300 h-8">{buildingSentence}</p>
                 </div>
                 <div>

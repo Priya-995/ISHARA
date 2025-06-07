@@ -6,12 +6,6 @@ import numpy as np
 from pydantic import BaseModel
 from typing import List
 from googletrans import Translator
-import os
-
-# Get the absolute path to the directory where the script is located
-script_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(script_dir, 'sign_language_cnn_model_double_hand.h5')
-label_encoder_path = os.path.join(script_dir, 'double_hand_label_encoder.pkl')
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -27,8 +21,8 @@ app.add_middleware(
 
 # Load the trained model and label encoder
 try:
-    model = tf.keras.models.load_model(model_path)
-    with open(label_encoder_path, 'rb') as f:
+    model = tf.keras.models.load_model(r'E:\ISHARA\backend\sign_language_cnn_model_double_hand.h5')
+    with open(r'E:\ISHARA\backend\double_hand_label_encoder.pkl', 'rb') as f:
         label_encoder = pickle.load(f)
     print("Model and label encoder loaded successfully.")
 except Exception as e:

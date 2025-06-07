@@ -8,9 +8,21 @@ type LandmarkConnectionArray = [number, number][];
 
 const WORDS = ["hello", "help", "hi", "how", "are", "you", "my", "name", "is", "thanks", "thank", "bye", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
+const speak = (text: string) => {
+  if ('speechSynthesis' in window && text) {
+    window.speechSynthesis.cancel(); // Cancel any previous speech
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+  }
+};
+
 export const useHandTracker = () => {
   const [handLandmarker, setHandLandmarker] = useState<HandLandmarker | null>(null);
-  const [detectedWord, setDetectedWord] = useState('No sign detected');
+  const [rawPrediction, setRawPrediction] = useState('...');
+  const [confirmedWord, setConfirmedWord] = useState('...');
+  const [currentSpelledWord, setCurrentSpelledWord] = useState('');
   const [buildingSentence, setBuildingSentence] = useState('');
   const [finalTranslation, setFinalTranslation] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -19,9 +31,37 @@ export const useHandTracker = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number>();
-  const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastPredictionSent = useRef(0);
   const predictionStabilityRef = useRef<string[]>([]);
+  const wordCommitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const sentenceFinalizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const commitCurrentSpelledWord = () => {
+    setCurrentSpelledWord(word => {
+      if (word) {
+        setBuildingSentence(sentence => (sentence ? `${sentence} ${word}` : word));
+      }
+      return ''; // Reset the spelled word
+    });
+  };
+
+  const finalizeSentence = () => {
+    // Use setState callbacks to ensure we have the latest values before finalizing
+    setCurrentSpelledWord(word => {
+      setBuildingSentence(sentence => {
+        const finalSentence = (sentence + (word ? ` ${word}` : '')).trim();
+        if (finalSentence) {
+          setFinalTranslation(prevFinal => {
+            const newFinal = prevFinal ? `${prevFinal}. ${finalSentence}` : finalSentence;
+            speak(finalSentence);
+            return newFinal;
+          });
+        }
+        return ''; // Reset sentence
+      });
+      return ''; // Reset word
+    });
+  };
 
   useEffect(() => {
     const createHandLandmarker = async () => {
@@ -48,43 +88,36 @@ export const useHandTracker = () => {
   const sendLandmarksToBackend = async (landmarks: number[][]) => {
     try {
         const response = await axios.post('http://localhost:8000/predict', { landmarks: [landmarks] });
-        console.log("Response from backend:", response.data);
-        const newPrediction = response.data.prediction;
+        const newPrediction = response.data.prediction || "";
         
-        // Always update the display with the latest prediction from the backend.
-        if (typeof newPrediction === 'string') {
-          setDetectedWord(newPrediction);
+        setRawPrediction(newPrediction || '...');
 
-          // Only add non-empty predictions to the stability buffer for word building.
-          if (newPrediction) {
-            predictionStabilityRef.current.push(newPrediction);
+        if (newPrediction) {
+          predictionStabilityRef.current.push(newPrediction);
 
-            if (predictionStabilityRef.current.length > 15) {
-              const last15 = predictionStabilityRef.current.slice(-15);
-              const counts = last15.reduce((acc, val) => {
-                acc[val] = (acc[val] || 0) + 1;
-                return acc;
-              }, {} as Record<string, number>);
+          if (predictionStabilityRef.current.length > 15) {
+            const last15 = predictionStabilityRef.current.slice(-15);
+            const counts = last15.reduce((acc, val) => ({ ...acc, [val]: (acc[val] || 0) + 1 }), {} as Record<string, number>);
+            const mostCommon = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
 
-              const mostCommon = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+            if (counts[mostCommon] > 10) {
+              const newConfirmedWord = mostCommon;
+              setConfirmedWord(newConfirmedWord);
+              
+              if (wordCommitTimeoutRef.current) clearTimeout(wordCommitTimeoutRef.current);
+              if (sentenceFinalizeTimeoutRef.current) clearTimeout(sentenceFinalizeTimeoutRef.current);
 
-              if (counts[mostCommon] > 10) {
-                setBuildingSentence(prev => {
-                  if(prev.endsWith(mostCommon)) return prev;
-                  const newWord = prev ? `${prev}${mostCommon}` : mostCommon;
-                  
-                  // Update suggestions
-                  const matches = stringSimilarity.findBestMatch(newWord.toLowerCase(), WORDS);
-                  const bestMatches = matches.ratings
-                    .filter(match => match.rating > 0.5)
-                    .sort((a, b) => b.rating - a.rating)
-                    .map(match => match.target);
-                  setSuggestions(bestMatches.slice(0, 3));
-
-                  return newWord;
-                });
-                predictionStabilityRef.current = [];
+              if (newConfirmedWord.length === 1) {
+                setCurrentSpelledWord(prev => prev + newConfirmedWord);
+              } else {
+                commitCurrentSpelledWord();
+                setBuildingSentence(prev => prev ? `${prev} ${newConfirmedWord}` : newConfirmedWord);
               }
+              
+              predictionStabilityRef.current = [];
+
+              wordCommitTimeoutRef.current = setTimeout(commitCurrentSpelledWord, 2000);
+              sentenceFinalizeTimeoutRef.current = setTimeout(finalizeSentence, 4000);
             }
           }
         }
@@ -96,69 +129,48 @@ export const useHandTracker = () => {
 
   const predictWebcam = () => {
     if (!videoRef.current || !canvasRef.current || !handLandmarker) return;
-
     const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const canvasCtx = canvas.getContext('2d');
-
     if (video.readyState < 2) {
-        requestRef.current = requestAnimationFrame(predictWebcam);
-        return;
+      requestRef.current = requestAnimationFrame(predictWebcam);
+      return;
     }
+    const canvas = canvasRef.current;
+    const canvasCtx = canvas.getContext('2d')!;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const results = handLandmarker.detectForVideo(video, Date.now());
 
-    if (canvasCtx) {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      
-      const results = handLandmarker.detectForVideo(video, Date.now());
-
+    if (results.landmarks && results.landmarks.length > 0 && results.handedness && results.handedness.length > 0) {
       canvasCtx.save();
       canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (results.landmarks && results.landmarks.length > 0 && results.handedness && results.handedness.length > 0) {
-        if (inactivityTimeoutRef.current) clearTimeout(inactivityTimeoutRef.current);
-
-        for (const landmarks of results.landmarks) {
-          drawConnectors(canvasCtx, landmarks, HandLandmarker.HAND_CONNECTIONS as unknown as LandmarkConnectionArray, { color: '#00FF00', lineWidth: 5 });
-          drawLandmarks(canvasCtx, landmarks, { color: '#FF0000', lineWidth: 2 });
-        }
-        
-        // Replicate the exact logic from the user's Tkinter application
-        const keypoints: { x: number; y: number; z: number; }[] = [];
-        keypoints.push(...results.landmarks[0]);
-
-        if (results.landmarks.length > 1) {
-          keypoints.push(...results.landmarks[1]);
-        } else {
-          const placeholderHand = Array(21).fill({ x: 0, y: 0, z: 0 });
-          keypoints.push(...placeholderHand);
-        }
-
-        setDetectionStatus(`${results.landmarks.length} hand(s) detected. Predicting...`);
-        const now = Date.now();
-        if (now - lastPredictionSent.current > 500) {
-            const keypoints2D = keypoints.map(lm => [lm.x, lm.y]);
-            sendLandmarksToBackend(keypoints2D);
-            lastPredictionSent.current = now;
-        }
-      } else {
-        setDetectionStatus('No hands detected in frame.');
-        if (inactivityTimeoutRef.current) clearTimeout(inactivityTimeoutRef.current);
-        inactivityTimeoutRef.current = setTimeout(() => {
-          if (buildingSentence) {
-            setFinalTranslation(prevFinal => prevFinal ? `${prevFinal} ${buildingSentence}` : buildingSentence);
-            setBuildingSentence('');
-            setSuggestions([]);
-            predictionStabilityRef.current = [];
-          }
-        }, 2000); // After 2s of inactivity, commit sentence
+      for (const landmarks of results.landmarks) {
+        drawConnectors(canvasCtx, landmarks, HandLandmarker.HAND_CONNECTIONS as unknown as LandmarkConnectionArray, { color: '#00FF00', lineWidth: 5 });
+        drawLandmarks(canvasCtx, landmarks, { color: '#FF0000', lineWidth: 2 });
+      }
+      
+      const placeholderHand = Array(21).fill({ x: 0, y: 0, z: 0 });
+      let leftHandLandmarks = null, rightHandLandmarks = null;
+      for (let i = 0; i < results.handedness.length; i++) {
+        if (results.handedness[i][0].categoryName === 'Left') leftHandLandmarks = results.landmarks[i];
+        else if (results.handedness[i][0].categoryName === 'Right') rightHandLandmarks = results.landmarks[i];
+      }
+      const keypoints = [...(leftHandLandmarks || placeholderHand), ...(rightHandLandmarks || placeholderHand)];
+      const now = Date.now();
+      if (now - lastPredictionSent.current > 500) {
+          sendLandmarksToBackend(keypoints.map(lm => [lm.x, lm.y]));
+          lastPredictionSent.current = now;
       }
       canvasCtx.restore();
+    } else {
+      setDetectionStatus('No hands detected. Finalizing...');
+      if (sentenceFinalizeTimeoutRef.current) clearTimeout(sentenceFinalizeTimeoutRef.current);
+      sentenceFinalizeTimeoutRef.current = setTimeout(finalizeSentence, 500);
     }
     
     requestRef.current = requestAnimationFrame(predictWebcam);
   };
-
+  
   const startVideo = async () => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       try {
@@ -191,25 +203,32 @@ export const useHandTracker = () => {
   };
   
   const resetTranslation = () => {
-    setDetectedWord('No sign detected');
+    setRawPrediction('...');
+    setConfirmedWord('...');
+    setCurrentSpelledWord('');
     setBuildingSentence('');
     setFinalTranslation('');
     setSuggestions([]);
-    if (inactivityTimeoutRef.current) clearTimeout(inactivityTimeoutRef.current);
+    if (wordCommitTimeoutRef.current) clearTimeout(wordCommitTimeoutRef.current);
+    if (sentenceFinalizeTimeoutRef.current) clearTimeout(sentenceFinalizeTimeoutRef.current);
     predictionStabilityRef.current = [];
+    window.speechSynthesis.cancel();
   };
-
+  
   useEffect(() => {
     return () => {
       stopVideo();
-      if (inactivityTimeoutRef.current) clearTimeout(inactivityTimeoutRef.current);
+      if (wordCommitTimeoutRef.current) clearTimeout(wordCommitTimeoutRef.current);
+      if (sentenceFinalizeTimeoutRef.current) clearTimeout(sentenceFinalizeTimeoutRef.current);
     };
   }, []);
 
   return {
     videoRef,
     canvasRef,
-    detectedWord,
+    rawPrediction,
+    confirmedWord,
+    currentSpelledWord,
     buildingSentence,
     finalTranslation,
     suggestions,
