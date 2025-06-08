@@ -49,6 +49,9 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --ishara-orange: 24 93% 58%;
+    --ishara-purple: 262 83% 58%;
   }
 
   .dark {
@@ -117,7 +120,19 @@
   }
 
   .bg-ishara-gradient {
-    background: linear-gradient(90deg, #0052FF 0%, #00C2B8 100%);
+    @apply bg-gradient-to-r from-ishara-blue to-ishara-teal;
+  }
+
+  .bg-ishara-translator-gradient {
+    @apply bg-gradient-to-r from-blue-500 to-cyan-500;
+  }
+
+  .bg-ishara-talk-gradient {
+    @apply bg-gradient-to-r from-purple-500 to-indigo-500;
+  }
+
+  .bg-ishara-community-gradient {
+    @apply bg-gradient-to-r from-orange-500 to-amber-500;
   }
 }
 

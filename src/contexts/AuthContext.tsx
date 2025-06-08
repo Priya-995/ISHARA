@@ -17,9 +17,10 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 export interface User {
   uid: string;
   email: string | null;
-  name: string | null;
+  displayName: string | null;
   photoURL: string | null;
   disabilityType: string | null;
+  createdAt: number | null;
   // Add other user properties as needed
 }
 
@@ -42,22 +43,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+        const userDocRef = doc(db, "users", firebaseUser.uid);
+        const userDoc = await getDoc(userDocRef);
+        const creationTime = firebaseUser.metadata.creationTime 
+          ? new Date(firebaseUser.metadata.creationTime).getTime() 
+          : Date.now();
+
         if (userDoc.exists()) {
-          setUser({ uid: firebaseUser.uid, ...userDoc.data() } as User);
+          const userData = userDoc.data();
+          if (!userData.createdAt) {
+            await updateDoc(userDocRef, { createdAt: creationTime });
+            userData.createdAt = creationTime;
+          }
+          setUser({ uid: firebaseUser.uid, ...userData, displayName: userData.name } as User);
         } else {
           // If the user signed up with a method that doesn't create a firestore doc (like google)
            const newUser: User = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
-            name: firebaseUser.displayName,
+            displayName: firebaseUser.displayName,
             photoURL: firebaseUser.photoURL,
             disabilityType: null, // Google sign-in doesn't provide this
+            createdAt: creationTime,
           };
           await setDoc(doc(db, "users", firebaseUser.uid), {
             email: firebaseUser.email,
             name: firebaseUser.displayName,
             photoURL: firebaseUser.photoURL,
+            createdAt: newUser.createdAt,
           });
           setUser(newUser);
         }
@@ -81,6 +94,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       name: name,
       email: email,
       disabilityType: disabilityType,
+      createdAt: Date.now(),
     });
   };
 
@@ -111,8 +125,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    if (data.name !== user.name) {
-      updates.name = data.name;
+    if (data.displayName !== user.displayName) {
+      updates.name = data.displayName;
     }
 
     if (data.disabilityType !== user.disabilityType) {
@@ -137,7 +151,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       setUser(prevUser => {
         if (!prevUser) return null;
-        return { ...prevUser, ...updates };
+        return { ...prevUser, ...updates, displayName: updates.name || prevUser.displayName };
       });
     }
   };

@@ -13,6 +13,16 @@ import {
 import { motion } from 'framer-motion';
 import axios from 'axios';
 
+const supportedLanguages = [
+  { value: 'en-US', label: 'English', translateCode: 'en' },
+  { value: 'hi-IN', label: 'Hindi', translateCode: 'hi' },
+  { value: 'as-IN', label: 'Assamese', translateCode: 'as' },
+  { value: 'bn-IN', label: 'Bengali', translateCode: 'bn' },
+  { value: 'mr-IN', label: 'Marathi', translateCode: 'mr' },
+  { value: 'bho-IN', label: 'Bhojpuri', translateCode: 'bho' },
+  { value: 'pa-IN', label: 'Punjabi', translateCode: 'pa' },
+];
+
 const Talk = () => {
   const [isListening, setIsListening] = useState(false);
   const [recognizedSpeech, setRecognizedSpeech] = useState('');
@@ -60,9 +70,15 @@ const Talk = () => {
       setTranslatedText(''); 
       
       let textToProcess = transcript;
-      if (spokenLanguage === 'hi-IN' && transcript) {
+      const currentLanguage = supportedLanguages.find(lang => lang.value === spokenLanguage);
+
+      if (currentLanguage && currentLanguage.translateCode !== 'en' && transcript) {
         try {
-          const res = await axios.post('http://localhost:8000/translate', { text: transcript, src_lang: 'hi', dest_lang: 'en' });
+          const res = await axios.post('http://localhost:8000/translate', { 
+            text: transcript, 
+            src_lang: currentLanguage.translateCode, 
+            dest_lang: 'en' 
+          });
           
           if (res.data && res.data.translated_text) {
             console.log("Translation successful:", res.data.translated_text);
@@ -121,17 +137,17 @@ const Talk = () => {
   };
 
   const getDisplayText = () => {
-    if (spokenLanguage === 'hi-IN') {
+    const currentLanguage = supportedLanguages.find(lang => lang.value === spokenLanguage);
+    if (currentLanguage && currentLanguage.translateCode !== 'en') {
         if (recognizedSpeech && translatedText) {
             return `${recognizedSpeech}\n(Translated: ${translatedText})`;
         }
-        return recognizedSpeech;
     }
     return recognizedSpeech;
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen p-4 sm:p-6 lg:p-8">
+    <div className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen p-4 sm:p-6 lg:p-8">
        <div className="max-w-7xl mx-auto">
         <motion.div 
           className="text-center mb-12"
@@ -145,15 +161,15 @@ const Talk = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           {/* Left Panel: Speech Input */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="shadow-lg h-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-2">
-              <CardHeader className="flex flex-row items-center justify-between">
+            <Card className="shadow-lg h-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex flex-col">
+              <CardHeader className="flex flex-row items-center justify-between p-4">
                 <CardTitle className="flex items-center"><Mic className="mr-2"/> Speech Input</CardTitle>
                 <div className="flex items-center space-x-2">
                     <Languages className="h-5 w-5 text-gray-500"/>
@@ -162,14 +178,17 @@ const Talk = () => {
                             <SelectValue placeholder="Language"/>
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="en-US">English</SelectItem>
-                            <SelectItem value="hi-IN">Hindi</SelectItem>
+                          {supportedLanguages.map(lang => (
+                            <SelectItem key={lang.value} value={lang.value}>
+                              {lang.label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                     </Select>
                 </div>
               </CardHeader>
-              <CardContent className="flex flex-col h-[calc(100%-4rem)]">
-                <div className="flex-grow flex flex-col items-center justify-center p-6 bg-gray-100 dark:bg-gray-800/50 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
+              <CardContent className="p-4 flex-grow flex flex-col">
+                <div className="flex-grow flex flex-col items-center justify-center p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
                   <Mic className={`h-16 w-16 mb-4 ${isListening ? 'text-blue-500 animate-pulse' : 'text-gray-400'}`}/>
                   <p className="text-gray-500 dark:text-gray-400 mb-4">Click to start speaking</p>
                   <Button onClick={handleToggleListening} className="bg-ishara-blue hover:bg-ishara-blue/90 text-white">
@@ -177,13 +196,13 @@ const Talk = () => {
                     {isListening ? 'Stop Listening' : 'Start Listening'}
                   </Button>
                 </div>
-                <div className="mt-6">
+                <div className="mt-4 flex-shrink-0">
                   <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Recognized Speech</label>
                   <Textarea 
                     readOnly 
                     value={getDisplayText()}
                     placeholder="Your speech will appear here..."
-                    className="mt-1 bg-gray-100 dark:bg-gray-700"
+                    className="mt-1 bg-gray-100 dark:bg-gray-700 w-full resize-none"
                     rows={4}
                   />
                 </div>
@@ -197,12 +216,12 @@ const Talk = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="shadow-lg h-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-2">
-              <CardHeader className="flex flex-row items-center justify-between">
+            <Card className="shadow-lg h-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex flex-col">
+              <CardHeader className="flex flex-row items-center justify-between p-4">
                 <CardTitle className="flex items-center">ISL Sign Display</CardTitle>
                 <Button variant="ghost" size="icon" onClick={handleReset}><RefreshCcw className="h-5 w-5"/></Button>
               </CardHeader>
-              <CardContent className="flex items-center justify-center h-[calc(100%-4rem)]">
+              <CardContent className="flex-grow flex items-center justify-center p-4">
                 <div className="w-full h-full flex flex-nowrap items-center justify-start gap-4 p-4 bg-gray-100 dark:bg-gray-800/50 rounded-lg overflow-x-auto overflow-y-hidden">
                   {displayedWords.length > 0 ? (
                     displayedWords.map((word, wordIndex) => (

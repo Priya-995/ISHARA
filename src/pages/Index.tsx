@@ -19,17 +19,8 @@ import {
   Zap,
   Shield
 } from 'lucide-react';
-
-const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
-  hover: { scale: 1.05, boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)", transition: { duration: 0.3 } }
-};
+import ActionBanner from '@/components/ActionBanner';
+import { sectionVariants, cardVariants } from '@/lib/animations';
 
 const Index = () => {
   return (
@@ -161,15 +152,17 @@ const Index = () => {
             </motion.div>
 
             <motion.div variants={cardVariants} whileHover="hover">
-              <Card className="p-8 h-full hover:shadow-xl transition-shadow border-none shadow-lg">
-                <CardContent className="p-0 text-center">
-                  <div className="bg-ishara-gradient rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <BookOpen className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Learning Resources</h3>
-                  <p className="text-gray-600">Access a library of ISL signs, phrases, and tutorials.</p>
-                </CardContent>
-              </Card>
+              <Link to="/learning">
+                <Card className="p-8 h-full hover:shadow-xl transition-shadow border-none shadow-lg">
+                  <CardContent className="p-0 text-center">
+                    <div className="bg-ishara-gradient rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                      <BookOpen className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">Learning Resources</h3>
+                    <p className="text-gray-600">Access a library of ISL signs, phrases, and tutorials.</p>
+                  </CardContent>
+                </Card>
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -242,7 +235,7 @@ const Index = () => {
             <motion.div variants={cardVariants} whileHover="hover">
               <Card className="text-center p-8 border-none shadow-lg h-full">
                 <CardContent className="p-0">
-                  <div className="text-4xl font-bold text-ishara-blue mb-2">18M+</div>
+                  <div className="text-4xl font-bold text-ishara-blue mb-2">60M+</div>
                   <p className="text-gray-600 mb-2">Deaf & Hard-of-Hearing Indians</p>
                   <p className="text-sm text-gray-500">Who rely on ISL as their primary language</p>
                 </CardContent>
@@ -252,7 +245,7 @@ const Index = () => {
             <motion.div variants={cardVariants} whileHover="hover">
               <Card className="text-center p-8 border-none shadow-lg h-full">
                 <CardContent className="p-0">
-                  <div className="text-4xl font-bold text-ishara-orange mb-2">250+</div>
+                  <div className="text-4xl font-bold text-green-500 mb-2">325+</div>
                   <p className="text-gray-600 mb-2">Certified ISL Interpreters</p>
                   <p className="text-sm text-gray-500">Nationwide shortage creating barriers</p>
                 </CardContent>
@@ -392,6 +385,59 @@ const Index = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Continue Learning Section */}
+      <ActionBanner
+        title="Continue Your Learning Journey"
+        description="Master ISL with our interactive lessons and personalized feedback."
+        buttonText="Start Learning Now"
+        linkTo="/learning"
+        className="py-16 bg-background"
+      />
+
+      {/* Testimonials Section */}
+      <motion.section
+        id="testimonials"
+        className="py-16 bg-background"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              What Our Users Say
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              See how Ishara has helped others break down communication barriers.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="p-6 text-center h-full">
+                <Users className="h-10 w-10 text-ishara-blue mx-auto mb-4" />
+                <h3 className="font-semibold text-lg mb-2">Daily Conversations</h3>
+                <p className="text-sm text-gray-600">Connect with family, friends, and colleagues effortlessly.</p>
+              </Card>
+            </motion.div>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="p-6 text-center h-full">
+                <BookOpen className="h-10 w-10 text-ishara-teal mx-auto mb-4" />
+                <h3 className="font-semibold text-lg mb-2">Education</h3>
+                <p className="text-sm text-gray-600">Participate in classroom discussions and lectures seamlessly.</p>
+              </Card>
+            </motion.div>
+            <motion.div variants={cardVariants} whileHover="hover">
+              <Card className="p-6 text-center h-full">
+                <Heart className="h-10 w-10 text-ishara-orange mx-auto mb-4" />
+                <h3 className="font-semibold text-lg mb-2">Healthcare</h3>
+                <p className="text-sm text-gray-600">Communicate effectively with doctors and healthcare professionals.</p>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </motion.section>

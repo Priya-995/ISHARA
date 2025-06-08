@@ -21,6 +21,7 @@ import {
 const Profile = () => {
   const { user, updateProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     disabilityType: user?.disabilityType || '',
@@ -48,6 +49,7 @@ const Profile = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
+    setIsSaving(true);
 
     try {
       await updateProfile({
@@ -67,6 +69,8 @@ const Profile = () => {
         description: 'Failed to update profile. Please try again.',
         variant: 'destructive',
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -119,7 +123,9 @@ const Profile = () => {
                     <div className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
                       Intermediate
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Member since January 2024</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Member since {user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'long' }) : 'N/A'}
+                    </p>
                   </>
                 )}
                 
@@ -135,7 +141,6 @@ const Profile = () => {
                   <div>
                     <label className="text-sm font-medium text-gray-500">Email</label>
                     <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4 text-gray-400" />
                       <p className="text-lg">{user.email}</p>
                     </div>
                   </div>
@@ -161,7 +166,9 @@ const Profile = () => {
                   </div>
                 </div>
                 {isEditing && (
-                  <Button onClick={handleSubmit} className="w-full mt-6 bg-ishara-gradient text-white">Save Changes</Button>
+                  <Button onClick={handleSubmit} disabled={isSaving} className="w-full mt-6 bg-ishara-gradient text-white">
+                    {isSaving ? "Saving..." : "Save Changes"}
+                  </Button>
                 )}
               </CardContent>
             </Card>

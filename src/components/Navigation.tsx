@@ -92,7 +92,7 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-20 items-center justify-between">
           <RouterLink to="/" className="flex items-center space-x-2 font-bold text-2xl text-ishara-blue hover:text-ishara-teal transition-colors">
-            <img src="/lk5GFyFTTvqYupHbQQDAQQ-removebg-preview.png" alt="Ishara Logo" className="w-16 h-16" />
+            <img src="/lk5GFyFTTvqYupHbQQDAQQ-removebg-preview.png" alt="Ishara Logo" className="w-16 h-16 relative top-1" />
             <span className="font-extrabold tracking-tight">ISHARA</span>
           </RouterLink>
 

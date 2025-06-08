@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Camera, RefreshCcw, Info, CheckCircle } from 'lucide-react';
-import { useHandTracker } from '../hooks/useHandTracker';
+import { Camera, RefreshCcw, Info, CheckCircle, Volume2 } from 'lucide-react';
+import { useHandTracker, speak } from '../hooks/useHandTracker';
 
 const Translator = () => {
   const {
     videoRef,
     canvasRef,
     rawPrediction,
-    confirmedWord,
     currentSpelledWord,
     buildingSentence,
     finalTranslation,
@@ -58,7 +57,7 @@ const Translator = () => {
           {/* Left Panel: Camera Feed and Controls */}
           <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 overflow-hidden">
             <CardContent className="p-4 sm:p-6">
-              <div className="relative aspect-video bg-black rounded-lg overflow-hidden flex items-center justify-center">
+              <div className="relative aspect-[4/3] bg-black rounded-lg overflow-hidden flex items-center justify-center">
                 <video ref={videoRef} className="absolute top-0 left-0 w-full h-full object-cover" autoPlay playsInline muted />
                 <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
                 {!isCameraOn && (
@@ -99,17 +98,15 @@ const Translator = () => {
                   <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Status</h3>
                   <p className={`mt-1 text-lg ${isError ? 'text-red-400' : 'text-gray-300'}`}>{detectionStatus}</p>
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Predicted Sign</h3>
-                  <p className="mt-1 text-2xl font-semibold text-yellow-400">{rawPrediction || '...'}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Confirmed Sign</h3>
-                  <p className="mt-1 text-2xl font-semibold text-purple-400">{confirmedWord || '...'}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Current Spelled Word</h3>
-                  <p className="mt-1 text-lg text-gray-300 h-8">{currentSpelledWord}</p>
+                <div className="flex space-x-8">
+                    <div className="flex-1">
+                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Predicted Sign</h3>
+                        <p className="mt-1 text-2xl font-semibold text-yellow-400 h-8">{rawPrediction || '...'}</p>
+                    </div>
+                    <div className="flex-1">
+                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Current Spelled Word</h3>
+                        <p className="mt-1 text-2xl font-semibold text-purple-400 h-8">{currentSpelledWord || '...'}</p>
+                    </div>
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Current Sentence</h3>
@@ -122,8 +119,20 @@ const Translator = () => {
                     </p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Final Translation</h3>
-                  <pre className="mt-1 text-lg text-gray-200 bg-gray-900/50 p-4 rounded-lg whitespace-pre-wrap h-24 overflow-y-auto">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Final Translation</h3>
+                    <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => speak(finalTranslation)} 
+                        disabled={!finalTranslation}
+                        aria-label="Speak final translation"
+                        className="text-gray-400 hover:text-white disabled:opacity-50"
+                    >
+                        <Volume2 className="h-5 w-5"/>
+                    </Button>
+                  </div>
+                  <pre className="mt-1 text-lg text-gray-200 bg-gray-900/50 p-4 rounded-lg whitespace-pre-wrap h-48 overflow-y-auto">
                     {finalTranslation || "..."}
                   </pre>
                 </div>

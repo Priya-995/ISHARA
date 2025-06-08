@@ -151,11 +151,11 @@ const About = () => {
               <h3 className="text-xl font-semibold mb-4">ISL in Numbers</h3>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-ishara-blue mb-1">18M+</div>
+                  <div className="text-3xl font-bold text-ishara-blue mb-1">60M+</div>
                   <p className="text-sm text-gray-600">Deaf & Hard-of-Hearing Indians</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-ishara-teal mb-1">250+</div>
+                  <div className="text-3xl font-bold text-ishara-teal mb-1">325+</div>
                   <p className="text-sm text-gray-600">Certified ISL Interpreters</p>
                 </div>
                 <div className="text-center">

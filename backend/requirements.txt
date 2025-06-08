@@ -1,7 +1,8 @@
-fastapi
-uvicorn[standard]
 tensorflow
-scikit-learn
-numpy
+fastapi
+uvicorn
 python-multipart
-googletrans==4.0.0-rc1 
+deep-translator
+pickle-mixin
+numpy
+scikit-learn 
