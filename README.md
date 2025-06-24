@@ -1,73 +1,127 @@
-# Welcome to your Lovable project
+# Indian Sign Language Translator #
 
-## Project info
+<Empowering communication for millions through AI-powered Indian Sign Language (ISL) recognition>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-**URL**: https://lovable.dev/projects/f9726c70-a985-4aca-998c-5f58643fa0b2
+🧩 **Problem Statement**
 
-## How can I edit this code?
+Millions of individuals in India with hearing and speech impairments face communication barriers daily. While American Sign Language (ASL) has been extensively researched and supported by technology, Indian Sign Language (ISL) lacks such development.
+Our mission is to build a real-time, user-friendly ISL Translator that:
+1.Recognizes ISL gestures using a standard webcam (no gloves, Kinect, or special hardware)
 
-There are several ways of editing your application.
+2.Bridges the gap between ISL users and non-signers
 
-**Use Lovable**
+3.Promotes ISL learning and inclusivity
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f9726c70-a985-4aca-998c-5f58643fa0b2) and start prompting.
 
-Changes made via Lovable will be committed automatically to this repo.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-**Use your preferred IDE**
+🧠 **Approach & Solution**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+For this problem We are presenting ISHARA 
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Despite limited datasets and language variation across regions, we aim to:
 
-Follow these steps:
+1.Collect and curate ISL gesture data from internet sources
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+2.Apply state-of-the-art ML algorithms like CNN and LSTM for gesture classification
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+3.Use computer vision techniques for real-time gesture detection
 
-# Step 3: Install the necessary dependencies.
-npm i
+Build an end-to-end system that supports sign-to-text/speech and text/speech-to-sign translation
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+📸 **Screenshots**
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+🧩 **Core Components**
 
-**Use GitHub Codespaces**
+Feature	Description
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+✋ Sign-to-Text/Speech	Real-time detection of hand gestures via webcam and conversion to text or audio
 
-## What technologies are used for this project?
+🗣️ Speech/Text-to-Sign	Converts spoken or typed language into ISL using animated sign representations
 
-This project is built with:
+📚 Learn ISL	Visual reference of static gestures (A–Z, 1–9) to promote ISL literacy
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## How can I deploy this project?
+✨ **Key Features**
 
-Simply open [Lovable](https://lovable.dev/projects/f9726c70-a985-4aca-998c-5f58643fa0b2) and click on Share -> Publish.
+🔤 Real-Time Gesture Detection with OpenCV and deep learning
 
-## Can I connect a custom domain to my Lovable project?
+🗣️ Sign Language to Text & Speech Conversion
 
-Yes, you can!
+📢 Text/Speech to ISL Gesture Animation
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+📚 Interactive ISL Learning Module
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+🌐 Multilingual Support using Google Translate API
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+🛠️ **Tech Stack**
+
+| Technology               | Description                                     |
+| ------------------------ | ----------------------------------------------- |
+| **Python**               | Core backend logic, model integration           |
+| **OpenCV**               | Real-time camera input and frame processing     |
+| **YOLOv8**               | Sign detection using object detection           |
+| **CNN**                  | For Gesture Recognization                       |
+| **Tkinter**              | Desktop GUI for user interaction                |
+| **Text-to-Speech**       | Speech output of translated signs               |
+| **Speech Recognition**   | Converts user voice to text                     |
+| **Google Translate API** | Translates voice to English for sign output     |
+| **Pickle**               | Saves model encoders and configurations         |
+| **Keras / TensorFlow**   | Deep learning framework for training            |
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+🚀 **How to Run**
+
+1. Clone the Repository
+
+     git clone https://github.com/your-username/Indian-Sign-Language.git
+
+     cd Indian-Sign-Language
+
+2. Install Dependencies
+
+     pip install -r requirements.txt
+
+3. Run the Application
+
+     python eng_to_hindi.py
+
+     python test.py
+
+     🖼 These scripts offer two different GUI experiences.
+
+    ⚠️ Note: Due to file size and privacy limitations, trained model weights and label encoders are not uploaded. You won’t be able to run real-time detection without them. Please refer to the demo folder for 
+    application visuals.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+📘 **Usage Tips**
+
+Use the tab navigation to switch between translation modes
+
+For sign detection:
+
+Ensure good lighting
+
+Keep your hand within the webcam frame
+
+Use a microphone or text input box for speech-to-sign translation
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+🙏 **Acknowledgments**
+
+This project is a small but significant step toward inclusive communication and digital accessibility for the hearing and speech impaired community in India.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+📬 **Feedback & Contributions**
+
+Feel free to fork, improve, or suggest features. Let's make ISL more accessible together!
