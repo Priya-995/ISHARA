@@ -34,11 +34,9 @@ Build an end-to-end system that supports sign-to-text/speech and text/speech-to-
 
 📸 **Screenshots**
 
-### 🖥️ App Interface
-[App Interface](ScreenShot/HomePage.png)
+ScreenShot/HomePage.png
 
-### 📂 Dashboard
-[Dashboard](ScreenShot/Dashboard.png)
+ScreenShot/Dashboard.png
 
 ### 
 
