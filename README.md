@@ -49,13 +49,14 @@ Build an end-to-end system that supports sign-to-text/speech and text/speech-to-
 
 ### 🤖 Implement Sign to Text
 ![Implement Sign to Text](ScreenShots/Implement_sign_to_text.png)
-![Sign to Text to Use](ScreenShots/Sign_to_text_to_use.png)
-![Sign to Text](ScreenShots/Sign_to_text.png)
+![Sign to Text to Use](ScreenShots/Sign_to_Text_to_use.png)
+![Sign to Text](ScreenShots/Sign_to_Text.png)
 
 ### 🔊 Voice to Sign - UI
-![Voice to Sign UI](ScreenShots/Voice_to_sign_impl.png)
-![Voice to Sign Flow](ScreenShots/Voice_to_sign_imple.png)
-![Voice to Sign Steps](ScreenShots/Voice_to_sign_implemen.png)
+![Voice to Sign UI](Voice_to_Sign.png)
+![Voice to Sign](ScreenShots/Voice_to_sign_impl.png)
+![Voice to Sign](ScreenShots/Voice_to_sign_imple.png)
+![Voice to Sign](ScreenShots/Voice_to_sign_implemen.png)
 
 ### 📘 Learning Page
 ![Learning Page](ScreenShots/Learning_page.png)
