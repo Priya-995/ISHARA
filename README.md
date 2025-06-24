@@ -114,6 +114,8 @@ Feature	Description
 
 This is not just a project, It is a significant step toward inclusive communication and digital accessibility for the hearing and speech impaired community in India.
 
-We Already Got Recognized from AKTU INNOVATION HUB along with mentoring guide .
+### We Already Got Recognized from AKTU INNOVATION HUB along with mentoring guide . ###
 ### Big Achievement of the Project is - We Got Awarded by the Hon'ble Governer Ma'am of UttarPradesh for this Innovation. ###
+
+![RECOGNIZATION](ScreenShots/RECOGNIZATION.JPG)
 
