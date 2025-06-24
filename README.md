@@ -30,19 +30,43 @@ Despite limited datasets and language variation across regions, we aim to:
 3.Use computer vision techniques for real-time gesture detection
 
 Build an end-to-end system that supports sign-to-text/speech and text/speech-to-sign translation
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 📸 Screenshots
 
-### 🖥️ App Interface
-![App Interface](ScreenShots/HomePage.png)
+### 🧑‍💼 About ISHARA
+![About ISHARA](ScreenShots/about_ishara.png)
 
-### 📂 Dashboard
-![Dashboard](ScreenShots/Dashboard.png)
+### 🏠 Home Page
+![Home Page](ScreenShots/homepage.png)
 
-### 
+### 🖥️ Dashboard
+![Dashboard](ScreenShots/dashboard.png)
 
+### 🚀 Features
+![Features](ScreenShots/features.png)
 
+### 🤖 Implement Sign to Text
+![Implement Sign to Text](ScreenShots/implement_sign_to_text.png)
+![Sign to Text to Use](ScreenShots/sign_to_text_to_use.png)
+![Sign to Text](ScreenShots/sign_to_text.png)
+
+### 🔊 Voice to Sign - UI
+![Voice to Sign UI](ScreenShots/voice_to_sign_impl.png)
+![Voice to Sign Flow](ScreenShots/voice_to_sign_imple.png)
+![Voice to Sign Steps](ScreenShots/voice_to_sign_implemen.png)
+
+### 📘 Learning Page
+![Learning Page](ScreenShots/learning_page.png)
+
+### 👤 Profile
+![Profile](ScreenShots/profile.png)
+
+### 💡 USP (Unique Selling Point)
+![USP](ScreenShots/usp.png)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 🧩 **Core Components**
 
