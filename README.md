@@ -2,15 +2,16 @@
 
 <Empowering communication for millions through AI-powered Indian Sign Language (ISL) recognition>
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 🧩 **Problem Statement**
 
 Millions of individuals in India with hearing and speech impairments face communication barriers daily. While American Sign Language (ASL) has been extensively researched and supported by technology, Indian Sign Language (ISL) lacks such development.
 Our mission is to build a real-time, user-friendly ISL Translator that:
->Recognizes ISL gestures using a standard webcam (no gloves, Kinect, or special hardware)
+1.Recognizes ISL gestures using a standard webcam (no gloves, Kinect, or special hardware)
 
->Bridges the gap between ISL users and non-signers
+2.Bridges the gap between ISL users and non-signers
 
->Promotes ISL learning and inclusivity
+3.Promotes ISL learning and inclusivity
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -21,14 +22,17 @@ For this problem We are presenting ISHARA
 
 Despite limited datasets and language variation across regions, we aim to:
 
->Collect and curate ISL gesture data from internet sources
+1.Collect and curate ISL gesture data from internet sources
 
->Apply state-of-the-art ML algorithms like CNN and LSTM for gesture classification
+2.Apply state-of-the-art ML algorithms like CNN and LSTM for gesture classification
 
->Use computer vision techniques for real-time gesture detection
+3.Use computer vision techniques for real-time gesture detection
 
->Build an end-to-end system that supports sign-to-text/speech and text/speech-to-sign translation
+Build an end-to-end system that supports sign-to-text/speech and text/speech-to-sign translation
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+📸 **Screenshots**
+
 
 🧩 **Core Components**
 
@@ -70,12 +74,6 @@ Feature	Description
 | **Google Translate API** | Translates voice to English for sign output     |
 | **Pickle**               | Saves model encoders and configurations         |
 | **Keras / TensorFlow**   | Deep learning framework for training            |
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-📸 **Screenshots**
-
-📂 Please check the Demo folder in the codebase to view the UI and application demo.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
