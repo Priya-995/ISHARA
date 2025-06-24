@@ -36,7 +36,7 @@ Build an end-to-end system that supports sign-to-text/speech and text/speech-to-
 📸 Screenshots
 
 ### 🧑‍💼 About ISHARA
-![About](ScreenShot/About_ISHARA.png)
+![About](ScreenShot/About.png)
 
 ### 🏠 Home Page
 ![Home Page](ScreenShots/HomePage.png)
