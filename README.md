@@ -36,7 +36,7 @@ Build an end-to-end system that supports sign-to-text/speech and text/speech-to-
 📸 Screenshots
 
 ### 🧑‍💼 About ISHARA
-![About ISHARA](ScreenShots/about_ishara.png)
+![About ISHARA](ScreenShots/AbouISHARA.png)
 
 ### 🏠 Home Page
 ![Home Page](ScreenShots/HomePage.png)
@@ -48,23 +48,23 @@ Build an end-to-end system that supports sign-to-text/speech and text/speech-to-
 ![Features](ScreenShots/Features.png)
 
 ### 🤖 Implement Sign to Text
-![Implement Sign to Text](ScreenShots/Implement_sign_to_text.png)
-![Sign to Text to Use](ScreenShots/Sign_to_text_to_use.png)
-![Sign to Text](ScreenShots/Sign_to_text.png)
+![Implement Sign to Text](ScreenShots/Implementsigntotext.png)
+![Sign to Text to Use](ScreenShots/Signtotexttouse.png)
+![Sign to Text](ScreenShots/Signtotext.png)
 
 ### 🔊 Voice to Sign - UI
-![Voice to Sign UI](ScreenShots/Voice_to_sign_impl.png)
-![Voice to Sign Flow](ScreenShots/Voice_to_sign_imple.png)
-![Voice to Sign Steps](ScreenShots/Voice_to_sign_implemen.png)
+![Voice to Sign UI](ScreenShots/Voicetosignimpl.png)
+![Voice to Sign Flow](ScreenShots/Voicetosignimple.png)
+![Voice to Sign Steps](ScreenShots/Voicetosignimplemen.png)
 
 ### 📘 Learning Page
-![Learning Page](ScreenShots/Learning_page.png)
+![Learning Page](ScreenShots/Learningpage.png)
 
 ### 👤 Profile
 ![Profile](ScreenShots/Profile.png)
 
 ### 💡 USP (Unique Selling Point)
-![USP](ScreenShots/Usp.png)
+![USP](ScreenShots/USP.png)
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
