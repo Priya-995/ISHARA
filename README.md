@@ -7,6 +7,7 @@
 
 Millions of individuals in India with hearing and speech impairments face communication barriers daily. While American Sign Language (ASL) has been extensively researched and supported by technology, Indian Sign Language (ISL) lacks such development.
 Our mission is to build a real-time, user-friendly ISL Translator that:
+
 1.Recognizes ISL gestures using a standard webcam (no gloves, Kinect, or special hardware)
 
 2.Bridges the gap between ISL users and non-signers
@@ -68,51 +69,12 @@ Feature	Description
 | **OpenCV**               | Real-time camera input and frame processing     |
 | **YOLOv8**               | Sign detection using object detection           |
 | **CNN**                  | For Gesture Recognization                       |
-| **Tkinter**              | Desktop GUI for user interaction                |
+| **React**                | GUI for user interaction                        |
 | **Text-to-Speech**       | Speech output of translated signs               |
 | **Speech Recognition**   | Converts user voice to text                     |
 | **Google Translate API** | Translates voice to English for sign output     |
 | **Pickle**               | Saves model encoders and configurations         |
 | **Keras / TensorFlow**   | Deep learning framework for training            |
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-🚀 **How to Run**
-
-1. Clone the Repository
-
-     git clone https://github.com/your-username/Indian-Sign-Language.git
-
-     cd Indian-Sign-Language
-
-2. Install Dependencies
-
-     pip install -r requirements.txt
-
-3. Run the Application
-
-     python eng_to_hindi.py
-
-     python test.py
-
-     🖼 These scripts offer two different GUI experiences.
-
-    ⚠️ Note: Due to file size and privacy limitations, trained model weights and label encoders are not uploaded. You won’t be able to run real-time detection without them. Please refer to the demo folder for 
-    application visuals.
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-📘 **Usage Tips**
-
-Use the tab navigation to switch between translation modes
-
-For sign detection:
-
-Ensure good lighting
-
-Keep your hand within the webcam frame
-
-Use a microphone or text input box for speech-to-sign translation
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
