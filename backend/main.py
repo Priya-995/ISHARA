@@ -96,7 +96,8 @@ async def translate_text(request: TranslationRequest):
     try:
         translator = Translator()
         translated = translator.translate(request.text, src=request.src_lang, dest=request.dest_lang)
+        print(f"[TRANSLATE] {request.text} ({request.src_lang} -> {request.dest_lang}) => {translated.text}")
         return {"translated_text": translated.text}
     except Exception as e:
-        return {"error": str(e)} 
-    
+        print(f"[TRANSLATE ERROR] {e}")
+        return {"error": str(e)}
