@@ -8,11 +8,11 @@
 Millions of individuals in India with hearing and speech impairments face communication barriers daily. While American Sign Language (ASL) has been extensively researched and supported by technology, Indian Sign Language (ISL) lacks such development.
 Our mission is to build a real-time, user-friendly ISL Translator that:
 
-1.Recognizes ISL gestures using a standard webcam (no gloves, Kinect, or special hardware)
+1. Recognizes ISL gestures using a standard webcam (no gloves, Kinect, or special hardware)
 
-2.Bridges the gap between ISL users and non-signers
+2. Bridges the gap between ISL users and non-signers
 
-3.Promotes ISL learning and inclusivity
+3. Promotes ISL learning and inclusivity
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -23,11 +23,11 @@ For this problem We are presenting ISHARA
 
 Despite limited datasets and language variation across regions, we aim to:
 
-1.Collect and curate ISL gesture data from internet sources
+1. Collect and curate ISL gesture data from internet sources
 
-2.Apply state-of-the-art ML algorithms like CNN and LSTM for gesture classification
+2. Apply state-of-the-art ML algorithms like CNN and LSTM for gesture classification
 
-3.Use computer vision techniques for real-time gesture detection
+3. Use computer vision techniques for real-time gesture detection
 
 Build an end-to-end system that supports sign-to-text/speech and text/speech-to-sign translation
 
@@ -52,7 +52,6 @@ Build an end-to-end system that supports sign-to-text/speech and text/speech-to-
 ![Implement Sign to Text](ScreenShots/SIGN_IMPLEMENT.png)
 
 ### 🔊 Voice to Sign - UI
-![Voice to Sign UI](Voice_to_Sign.png)
 ![Voice to Sign](ScreenShots/voice_to_sign_impl.png)
 ![Voice to Sign](ScreenShots/voice_to_sign_imple.png)
 ![Voice to Sign](ScreenShots/voice_to_sign_implemen.png)
@@ -113,10 +112,8 @@ Feature	Description
 
 🙏 **Acknowledgments**
 
-This project is a small but significant step toward inclusive communication and digital accessibility for the hearing and speech impaired community in India.
+This is not just a project, It is a significant step toward inclusive communication and digital accessibility for the hearing and speech impaired community in India.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+We Already Got Recognized from AKTU INNOVATION HUB along with mentoring guide .
+### Big Achievement of the Project is - We Got Awarded by the Hon'ble Governer Ma'am of UttarPradesh for this Innovation. ###
 
-📬 **Feedback & Contributions**
-
-Feel free to fork, improve, or suggest features. Let's make ISL more accessible together!
