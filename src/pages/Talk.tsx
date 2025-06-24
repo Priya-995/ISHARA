@@ -29,111 +29,131 @@ const Talk = () => {
   const [translatedText, setTranslatedText] = useState('');
   const [displayedWords, setDisplayedWords] = useState<string[][]>([]);
   const [spokenLanguage, setSpokenLanguage] = useState('en-US');
+
   const recognitionRef = useRef<any>(null);
+  const shouldBeListeningRef = useRef(false);
   const lastTranscriptRef = useRef('');
 
   useEffect(() => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.lang = 'en-US';
-      recognition.interimResults = false;
-      
-      recognition.onstart = () => setIsListening(true);
-      recognition.onend = () => setIsListening(false);
-      recognition.onerror = (event: any) => {
-        console.error("Speech recognition error:", event.error);
-        if (event.error !== 'no-speech') alert(`Speech recognition error: ${event.error}`);
-        setIsListening(false);
-      };
-
-      recognitionRef.current = recognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported by your browser. Please try Chrome or Edge.");
+      return;
     }
-  }, []);
 
-  useEffect(() => {
-    const recognition = recognitionRef.current;
-    if (!recognition) return;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false; // More robust
+    recognition.interimResults = false;
+    recognitionRef.current = recognition;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onend = () => {
+      if (shouldBeListeningRef.current) {
+        // If it stopped but we still want to listen (i.e., not a manual stop), restart it.
+        recognition.start();
+      } else {
+        setIsListening(false);
+      }
+    };
+    
+    recognition.onerror = (event: any) => {
+      console.error(`Speech recognition error: ${event.error}`);
+      // On a 'no-speech' error, the onend event will handle restarting.
+      // We only need to manually stop listening for more critical errors.
+      if (event.error !== 'no-speech') {
+        shouldBeListeningRef.current = false;
+        setIsListening(false);
+        alert(`An error occurred: ${event.error}`);
+      }
+    };
 
     recognition.onresult = async (event: any) => {
-      const transcript = Array.from(event.results)
-        .map((result: any) => result[0])
-        .map((result: any) => result.transcript)
-        .join(' ');
+        const transcript = Array.from(event.results)
+          .map((result: any) => result[0])
+          .map((result: any) => result.transcript)
+          .join(' ');
 
-      if (transcript.trim() === '' || transcript === lastTranscriptRef.current) {
-        return;
-      }
-      lastTranscriptRef.current = transcript;
-      setRecognizedSpeech(transcript);
-      setTranslatedText(''); 
-      
-      let textToProcess = transcript;
-      const currentLanguage = supportedLanguages.find(lang => lang.value === spokenLanguage);
-
-      if (currentLanguage && currentLanguage.translateCode !== 'en' && transcript) {
-        try {
-          const res = await axios.post('http://localhost:8000/translate', { 
-            text: transcript, 
-            src_lang: currentLanguage.translateCode, 
-            dest_lang: 'en' 
-          });
-          
-          if (res.data && res.data.translated_text) {
-            console.log("Translation successful:", res.data.translated_text);
-            textToProcess = res.data.translated_text;
-            setTranslatedText(textToProcess);
-          } else {
-            // Handle cases where translation returns an error in the response body
-            throw new Error(res.data.error || 'Unknown translation error');
-          }
-        } catch (error: any) {
-          console.error("Translation error:", error);
-          const errorMessage = error.response ? JSON.stringify(error.response.data) : error.message;
-          alert(`Translation failed: ${errorMessage}`);
-          // Don't process signs if translation fails
-          setDisplayedWords([]);
-          return; 
+        if (transcript.trim() === '' || transcript.trim() === lastTranscriptRef.current.trim()) {
+            return;
         }
-      }
+        
+        console.log(`Recognized: "${transcript}"`);
+        lastTranscriptRef.current = transcript;
+        setRecognizedSpeech(transcript);
+        setTranslatedText('');
+        
+        let textToProcess = transcript;
+        const currentLanguage = supportedLanguages.find(lang => lang.value === spokenLanguage);
 
-      const words = textToProcess.toUpperCase().replace(/['".,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(' ').filter(Boolean);
-      const newDisplayedWords = words.map(word => word.split(''));
-      setDisplayedWords(newDisplayedWords);
+        if (currentLanguage && currentLanguage.translateCode !== 'en' && transcript) {
+            try {
+              const res = await axios.post('http://localhost:8000/translate', { 
+                text: transcript, 
+                src_lang: currentLanguage.translateCode, 
+                dest_lang: 'en' 
+              });
+              
+              if (res.data && res.data.translated_text) {
+                textToProcess = res.data.translated_text;
+                setTranslatedText(textToProcess);
+              } else {
+                throw new Error(res.data.error || 'Unknown translation error');
+              }
+            } catch (error: any) {
+              console.error("Translation error:", error);
+              const errorMessage = error.response ? JSON.stringify(error.response.data) : error.message;
+              alert(`Translation failed: ${errorMessage}`);
+              setDisplayedWords([]);
+              return; 
+            }
+        }
+
+        const words = textToProcess.toUpperCase().replace(/['".,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(' ').filter(Boolean);
+        const newDisplayedWords = words.map(word => word.split(''));
+        setDisplayedWords(newDisplayedWords);
     };
+  }, []); // Run only once on mount
+
+  // Effect to update language
+  useEffect(() => {
+    if (recognitionRef.current) {
+      recognitionRef.current.lang = spokenLanguage;
+    }
   }, [spokenLanguage]);
 
 
   const handleToggleListening = () => {
-    const recognition = recognitionRef.current;
-    if (!recognition) {
-      alert("Speech recognition is not supported.");
-      return;
-    }
+    if (!recognitionRef.current) return;
     
-    recognition.lang = spokenLanguage;
-
     if (isListening) {
-      recognition.stop();
+      shouldBeListeningRef.current = false;
+      recognitionRef.current.stop();
     } else {
+      // Clear previous state before starting
       lastTranscriptRef.current = '';
       setRecognizedSpeech('');
       setTranslatedText('');
       setDisplayedWords([]);
-      recognition.start();
+      shouldBeListeningRef.current = true;
+      recognitionRef.current.start();
     }
   };
 
 
   const handleReset = () => {
-    if (recognitionRef.current && isListening) {
-        recognitionRef.current.stop();
-    }
     lastTranscriptRef.current = '';
     setRecognizedSpeech('');
     setTranslatedText('');
     setDisplayedWords([]);
+    if (isListening) {
+        shouldBeListeningRef.current = false;
+        if (recognitionRef.current) {
+            recognitionRef.current.stop();
+        }
+    }
   };
 
   const getDisplayText = () => {

@@ -86,10 +86,10 @@ const SignUp = () => {
             <main className='px-4'>
                 <h1 className="text-3xl font-extrabold mb-8 text-center">Create an account</h1>
                 <div className="space-y-3">
-                    <Button onClick={handleGoogleSignIn} className="w-full bg-white text-black font-semibold rounded-full h-11 justify-start px-6 items-center flex hover:bg-gray-200">
+                    <Button onClick={handleGoogleSignIn} className="w-full bg-white text-black dark:text-gray-900 font-semibold rounded-full h-11 justify-start px-6 items-center flex hover:bg-gray-200">
                         <GoogleIcon />Sign up with Google
                     </Button>
-                    <Button onClick={handleAppleSignIn} className="w-full bg-white text-black font-semibold rounded-full h-11 justify-start px-6 items-center flex hover:bg-gray-200">
+                    <Button onClick={handleAppleSignIn} className="w-full bg-white text-black dark:text-gray-900 font-semibold rounded-full h-11 justify-start px-6 items-center flex hover:bg-gray-200">
                         <AppleIcon />Sign up with Apple
                     </Button>
                     
@@ -99,7 +99,7 @@ const SignUp = () => {
                         <div className="flex-grow border-t border-gray-700"></div>
                     </div>
 
-                    <Button onClick={() => setStep('form')} className="w-full bg-white text-black font-bold rounded-full h-11 justify-center hover:bg-gray-200">
+                    <Button onClick={() => setStep('form')} className="w-full bg-white text-black dark:text-gray-900 font-bold rounded-full h-11 justify-center hover:bg-gray-200">
                         Create account
                     </Button>
                 </div>
@@ -156,7 +156,7 @@ const SignUp = () => {
                     </div>
 
                     <div className="fixed bottom-0 left-0 right-0 p-4 bg-black border-t border-gray-800 flex justify-end">
-                        <Button type="submit" className="bg-white text-black font-bold rounded-full h-12 px-8 text-base" disabled={isLoading}>
+                        <Button type="submit" className="bg-white text-black dark:text-gray-900 font-bold rounded-full h-12 px-8 text-base" disabled={isLoading}>
                             {isLoading ? "Creating..." : "Create Account"}
                         </Button>
                     </div>

@@ -31,8 +31,8 @@ const About = () => {
         {/* Our Mission */}
         <div className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Mission</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               We envision a world where communication barriers no longer limit potential, where every conversation, every opportunity, and every dream is accessible to all.
             </p>
           </div>
@@ -73,8 +73,8 @@ const About = () => {
         {/* Meet the Team Section */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet the Team</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Meet the Team</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               The passionate individuals behind ISHARA's mission.
             </p>
           </div>
@@ -102,8 +102,8 @@ const About = () => {
         {/* Why ISL Matters */}
         <div className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Indian Sign Language Matters</h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Why Indian Sign Language Matters</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               ISL is a complete, natural language with its own grammar, syntax, and cultural significance, serving as the primary mode of communication for millions.
             </p>
           </div>
@@ -155,7 +155,7 @@ const About = () => {
                   <p className="text-sm text-gray-600">Deaf & Hard-of-Hearing Indians</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-ishara-teal mb-1">325+</div>
+                  <div className="text-3xl font-bold text-ishara-teal mb-1">325</div>
                   <p className="text-sm text-gray-600">Certified ISL Interpreters</p>
                 </div>
                 <div className="text-center">
@@ -174,8 +174,8 @@ const About = () => {
         {/* Our Approach */}
         <div className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Approach</h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Approach</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               Ishara combines cutting-edge technology with deep respect for ISL and the deaf community's unique needs.
             </p>
           </div>
@@ -187,10 +187,10 @@ const About = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="md:text-right order-2 md:order-1">
                   <h3 className="text-xl font-semibold mb-3 text-ishara-blue">Technology with Purpose</h3>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
                     We develop AI models specifically trained on Indian Sign Language, recognizing its unique grammar and regional variations.
                   </p>
-                  <ul className="space-y-2 text-gray-600">
+                  <ul className="space-y-2 text-gray-600 dark:text-gray-400">
                     <li className="flex items-center justify-end">
                       <span>High-accuracy gesture recognition</span>
                       <BadgeCheck className="h-4 w-4 text-ishara-blue ml-2" />
@@ -234,10 +234,10 @@ const About = () => {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-3 text-ishara-teal">Community-Driven Development</h3>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
                     We collaborate closely with the deaf community, ISL interpreters, and educators to ensure our solutions address real needs.
                   </p>
-                  <ul className="space-y-2 text-gray-600">
+                  <ul className="space-y-2 text-gray-600 dark:text-gray-400">
                     <li className="flex items-center">
                       <BadgeCheck className="h-4 w-4 text-ishara-teal mr-2" />
                       <span>Deaf-led research and testing</span>
@@ -257,10 +257,10 @@ const About = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="md:text-right order-2 md:order-1">
                   <h3 className="text-xl font-semibold mb-3 text-ishara-orange">Holistic Ecosystem</h3>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
                     We go beyond translation to create a comprehensive platform for learning, connecting, and advocating.
                   </p>
-                  <ul className="space-y-2 text-gray-600">
+                  <ul className="space-y-2 text-gray-600 dark:text-gray-400">
                     <li className="flex items-center justify-end">
                       <span>ISL education and resources</span>
                       <BadgeCheck className="h-4 w-4 text-ishara-orange ml-2" />
@@ -300,8 +300,8 @@ const About = () => {
                 <Accessibility className="h-12 w-12" />
               </div>
               <div className="flex-1">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Our Accessibility Commitment</h2>
-                <p className="text-gray-700 mb-4">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Our Accessibility Commitment</h2>
+                <p className="text-gray-700 dark:text-gray-400 mb-4">
                   Ishara is built with accessibility at its core. We adhere to WCAG 2.1 AA standards and continuously work to ensure our platform is usable by everyone, regardless of ability.
                 </p>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -338,8 +338,8 @@ const About = () => {
         {/* Team Section */}
         <div className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Team</h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Team</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               Ishara brings together a diverse team of deaf and hearing professionals with expertise in AI, linguistics, education, and accessibility.
             </p>
           </div>
@@ -349,8 +349,8 @@ const About = () => {
               <CardContent className="p-8">
                 <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4"></div>
                 <h3 className="text-xl font-semibold">Deepak Sharma</h3>
-                <p className="text-gray-600 mb-2">Founder & CEO</p>
-                <p className="text-sm text-gray-500">
+                <p className="text-gray-600 dark:text-gray-400 mb-2">Founder & CEO</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   CODA (Child of Deaf Adult) with 15+ years in accessibility technology
                 </p>
               </CardContent>
@@ -360,8 +360,8 @@ const About = () => {
               <CardContent className="p-8">
                 <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4"></div>
                 <h3 className="text-xl font-semibold">Priya Mehta</h3>
-                <p className="text-gray-600 mb-2">Head of ISL Research</p>
-                <p className="text-sm text-gray-500">
+                <p className="text-gray-600 dark:text-gray-400 mb-2">Head of ISL Research</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Deaf educator and ISL linguist with PhD in Sign Language Studies
                 </p>
               </CardContent>
@@ -371,8 +371,8 @@ const About = () => {
               <CardContent className="p-8">
                 <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4"></div>
                 <h3 className="text-xl font-semibold">Raj Patel</h3>
-                <p className="text-gray-600 mb-2">Lead AI Engineer</p>
-                <p className="text-sm text-gray-500">
+                <p className="text-gray-600 dark:text-gray-400 mb-2">Lead AI Engineer</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Computer vision specialist with expertise in gesture recognition
                 </p>
               </CardContent>
@@ -383,24 +383,24 @@ const About = () => {
         {/* Partners & Supporters */}
         <div className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Partners & Supporters</h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Partners & Supporters</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               We're grateful to work with organizations committed to accessibility and inclusion.
             </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-              <span className="text-gray-500 font-semibold">Partner 1</span>
+              <span className="text-gray-500 dark:text-gray-400 font-semibold">Partner 1</span>
             </div>
             <div className="h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-              <span className="text-gray-500 font-semibold">Partner 2</span>
+              <span className="text-gray-500 dark:text-gray-400 font-semibold">Partner 2</span>
             </div>
             <div className="h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-              <span className="text-gray-500 font-semibold">Partner 3</span>
+              <span className="text-gray-500 dark:text-gray-400 font-semibold">Partner 3</span>
             </div>
             <div className="h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-              <span className="text-gray-500 font-semibold">Partner 4</span>
+              <span className="text-gray-500 dark:text-gray-400 font-semibold">Partner 4</span>
             </div>
           </div>
         </div>

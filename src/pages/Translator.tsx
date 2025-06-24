@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Camera, RefreshCcw, Info, CheckCircle, Volume2 } from 'lucide-react';
-import { useHandTracker, speak } from '../hooks/useHandTracker';
+import { useHandTracker, speak, primeSpeechSynthesis } from '../hooks/useHandTracker';
 
 const Translator = () => {
   const {
@@ -21,8 +21,13 @@ const Translator = () => {
   } = useHandTracker();
 
   const [isCameraOn, setIsCameraOn] = useState(false);
+  const [speechPrimed, setSpeechPrimed] = useState(false);
 
   const handleStartCamera = async () => {
+    if (!speechPrimed) {
+      primeSpeechSynthesis();
+      setSpeechPrimed(true);
+    }
     const success = await startVideo();
     if (success) {
       setIsCameraOn(true);
@@ -45,7 +50,7 @@ const Translator = () => {
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <header className="text-center mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-500">
+          <h1 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-500 pb-2">
             Sign Language to Text
           </h1>
           <p className="text-lg text-gray-400 mt-2">
@@ -90,52 +95,51 @@ const Translator = () => {
           </Card>
 
           {/* Right Panel: Translation Output */}
-          <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700">
+          <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 flex flex-col">
             <CardContent className="p-4 sm:p-6 flex flex-col h-full">
-              <h2 className="text-2xl font-bold text-cyan-400 mb-4">Translation</h2>
-              <div className="flex-grow space-y-4">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-cyan-400">Translation</h2>
+                <div className={`flex items-center space-x-2 ${isError ? 'text-red-400' : 'text-gray-400'}`}>
+                  <div className={`h-3 w-3 rounded-full ${isCameraOn && !isError ? 'bg-green-500 animate-pulse' : isError ? 'bg-red-500' : 'bg-gray-500'}`}></div>
+                  <span className="text-sm font-medium">{detectionStatus}</span>
+                </div>
+              </div>
+
+              <div className="flex-grow flex flex-col bg-gray-900/50 rounded-lg p-4 space-y-4">
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Status</h3>
-                  <p className={`mt-1 text-lg ${isError ? 'text-red-400' : 'text-gray-300'}`}>{detectionStatus}</p>
+                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Detected Sentence</h3>
+                  <p className="text-2xl text-gray-200 min-h-[6rem]">
+                    {buildingSentence}
+                    <span className="text-purple-400 font-bold animate-pulse"> {currentSpelledWord}</span>
+                    {currentSpelledWord && <span className="text-gray-500 animate-pulse">|</span>}
+                  </p>
                 </div>
-                <div className="flex space-x-8">
-                    <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Predicted Sign</h3>
-                        <p className="mt-1 text-2xl font-semibold text-yellow-400 h-8">{rawPrediction || '...'}</p>
-                    </div>
-                    <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Current Spelled Word</h3>
-                        <p className="mt-1 text-2xl font-semibold text-purple-400 h-8">{currentSpelledWord || '...'}</p>
-                    </div>
-                </div>
+                
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Current Sentence</h3>
-                  <p className="mt-1 text-lg text-gray-300 h-8">{buildingSentence}</p>
+                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Suggestions</h3>
+                  <p className="mt-1 text-lg text-cyan-300 min-h-[2rem]">
+                      {suggestions.join('  |  ')}
+                  </p>
                 </div>
-                <div>
-                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Suggestions</h3>
-                    <p className="mt-1 text-lg text-cyan-300 h-8">
-                        {suggestions.join(', ')}
-                    </p>
+              </div>
+              
+              <div className="mt-4">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-gray-300">Final Translation</h3>
+                  <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => speak(finalTranslation)} 
+                      disabled={!finalTranslation}
+                      aria-label="Speak final translation"
+                      className="text-gray-400 hover:text-white disabled:opacity-50"
+                  >
+                      <Volume2 className="h-5 w-5"/>
+                  </Button>
                 </div>
-                <div>
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Final Translation</h3>
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => speak(finalTranslation)} 
-                        disabled={!finalTranslation}
-                        aria-label="Speak final translation"
-                        className="text-gray-400 hover:text-white disabled:opacity-50"
-                    >
-                        <Volume2 className="h-5 w-5"/>
-                    </Button>
-                  </div>
-                  <pre className="mt-1 text-lg text-gray-200 bg-gray-900/50 p-4 rounded-lg whitespace-pre-wrap h-48 overflow-y-auto">
-                    {finalTranslation || "..."}
-                  </pre>
-                </div>
+                <pre className="mt-1 text-lg text-gray-200 bg-gray-900/50 p-4 rounded-lg whitespace-pre-wrap h-48 overflow-y-auto">
+                  {finalTranslation || "..."}
+                </pre>
               </div>
             </CardContent>
           </Card>

@@ -128,10 +128,10 @@ const Support = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Help & Support
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Get the assistance you need to make the most of Ishara's features and resolve any issues.
           </p>
         </div>
@@ -158,7 +158,7 @@ const Support = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold">FAQs</h3>
-                  <p className="text-sm text-gray-600">Common questions</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Common questions</p>
                 </div>
               </div>
             </CardContent>
@@ -172,7 +172,7 @@ const Support = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold">User Guides</h3>
-                  <p className="text-sm text-gray-600">Step-by-step help</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Step-by-step help</p>
                 </div>
               </div>
             </CardContent>
@@ -186,7 +186,7 @@ const Support = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold">Video Tutorials</h3>
-                  <p className="text-sm text-gray-600">Visual instructions</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Visual instructions</p>
                 </div>
               </div>
             </CardContent>
@@ -200,7 +200,7 @@ const Support = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold">Community Help</h3>
-                  <p className="text-sm text-gray-600">Ask other users</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Ask other users</p>
                 </div>
               </div>
             </CardContent>
@@ -237,12 +237,12 @@ const Support = () => {
                             <FileText className="h-5 w-5 text-ishara-teal" />
                           )}
                           <div>
-                            <h3 className="font-medium text-gray-900">{resource.title}</h3>
-                            <p className="text-sm text-gray-600">{resource.description}</p>
+                            <h3 className="font-medium text-gray-900 dark:text-white">{resource.title}</h3>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">{resource.description}</p>
                           </div>
                         </div>
                         <div className="flex items-center justify-between mt-2">
-                          <div className="text-xs text-gray-500 flex items-center">
+                          <div className="text-xs text-gray-500 dark:text-gray-300 flex items-center">
                             {resource.type === 'video' ? (
                               <>
                                 <Clock className="h-3 w-3 mr-1" />
@@ -287,7 +287,7 @@ const Support = () => {
                   <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center mb-4">
                     <PlayCircle className="h-12 w-12 text-gray-400" />
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Watch this short video to get a complete overview of the Ishara platform and learn how to start using it effectively.
                   </p>
                 </CardContent>
@@ -301,7 +301,7 @@ const Support = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     We're committed to making Ishara accessible to everyone. Find resources for using Ishara with assistive technologies.
                   </p>
                   <div className="grid grid-cols-2 gap-2">
@@ -347,7 +347,7 @@ const Support = () => {
 
                 <div className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-100">
                   <h3 className="text-lg font-semibold text-ishara-blue mb-2">Didn't find what you're looking for?</h3>
-                  <p className="text-gray-600 mb-4">Our support team is ready to help with any other questions you might have.</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">Our support team is ready to help with any other questions you might have.</p>
                   <Button className="bg-ishara-gradient hover:opacity-90 text-white">
                     Contact Support
                   </Button>
@@ -367,7 +367,7 @@ const Support = () => {
                   <form onSubmit={handleSubmitContact} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                           Your Name
                         </label>
                         <Input 
@@ -380,7 +380,7 @@ const Support = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                           Email Address
                         </label>
                         <Input 
@@ -395,7 +395,7 @@ const Support = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Subject
                       </label>
                       <Input 
@@ -409,7 +409,7 @@ const Support = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Message
                       </label>
                       <Textarea 
@@ -426,7 +426,7 @@ const Support = () => {
                       Submit Support Request
                     </Button>
 
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       Our team typically responds within 24 hours during business days.
                     </p>
                   </form>
@@ -444,13 +444,13 @@ const Support = () => {
                   <CardContent className="space-y-4">
                     <div>
                       <h3 className="font-semibold">Support Hours</h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         Monday - Friday: 9:00 AM - 6:00 PM IST
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         Saturday: 10:00 AM - 2:00 PM IST
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         Sunday: Closed
                       </p>
                     </div>
@@ -469,7 +469,7 @@ const Support = () => {
                         <Phone className="h-4 w-4 mr-2" />
                         <a href="tel:+919876543210">+91 98765 43210</a>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
                         (ISL interpreter available on request)
                       </p>
                     </div>
@@ -479,7 +479,7 @@ const Support = () => {
                 <Card className="border-none shadow-lg bg-gray-50">
                   <CardContent className="p-6">
                     <h3 className="font-semibold mb-2">Ready to Get Help from the Community?</h3>
-                    <p className="text-sm text-gray-600 mb-4">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                       Connect with other Ishara users and get help from the community.
                     </p>
                     <Button variant="outline" className="w-full">
@@ -494,7 +494,7 @@ const Support = () => {
                       <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
                       <div>
                         <h3 className="font-semibold">Dedicated Support for Deaf Users</h3>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           We offer ISL video support for deaf and hard-of-hearing users.
                           <Button variant="link" className="p-0 h-auto block">
                             Request ISL Support

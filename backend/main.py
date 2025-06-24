@@ -5,7 +5,7 @@ import pickle
 import numpy as np
 from pydantic import BaseModel
 from typing import List
-from google_trans_new import google_translator
+from googletrans import Translator
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -21,8 +21,8 @@ app.add_middleware(
 
 # Load the trained model and label encoder
 try:
-    model = tf.keras.models.load_model('AKTU_MLP.h5')
-    with open('double_hand_label_encoder.pkl', 'rb') as f:
+    model = tf.keras.models.load_model('F:/ISHARA/backend/kri.h5')
+    with open('F:/ISHARA/backend/krishnav.pkl', 'rb') as f:
         label_encoder = pickle.load(f)
     print("Model and label encoder loaded successfully.")
 except Exception as e:
@@ -30,8 +30,8 @@ except Exception as e:
     model = None
     label_encoder = None
 
-def normalize_and_flatten_landmarks(landmarks):
-    # Process landmarks to match the MLP model's expected input format.
+def normalize_and_reshape_for_cnn(landmarks):
+    # Process landmarks to match the CNN model's expected input format.
     landmarks_np = np.array(landmarks).reshape(42, 2)
 
     # Center the landmarks around the first landmark (wrist).
@@ -45,8 +45,8 @@ def normalize_and_flatten_landmarks(landmarks):
     else:
         normalized = centered # Avoid division by zero
 
-    # Flatten the (42, 2) array into a (84,) vector.
-    return normalized.flatten()
+    # Reshape for CNN input: (42, 2, 1).
+    return normalized.reshape(42, 2, 1)
 
 # Define the structure of the incoming data
 class HandLandmarks(BaseModel):
@@ -66,9 +66,9 @@ async def predict(data: HandLandmarks):
         landmarks_array = np.array(data.landmarks)[0]
         
         # Process the landmarks to match the training script's input format.
-        processed_data = normalize_and_flatten_landmarks(landmarks_array)
+        processed_data = normalize_and_reshape_for_cnn(landmarks_array)
         
-        # Add a batch dimension to create a shape of (1, 84).
+        # Add a batch dimension to create a shape of (1, 42, 2, 1).
         processed_data_batch = np.expand_dims(processed_data, axis=0)
 
         # Make a prediction and get the highest confidence score
@@ -94,9 +94,9 @@ class TranslationRequest(BaseModel):
 @app.post("/translate")
 async def translate_text(request: TranslationRequest):
     try:
-        translator = google_translator()
-        translated = translator.translate(request.text, lang_src=request.src_lang, lang_tgt=request.dest_lang)
-        return {"translated_text": translated}
+        translator = Translator()
+        translated = translator.translate(request.text, src=request.src_lang, dest=request.dest_lang)
+        return {"translated_text": translated.text}
     except Exception as e:
         return {"error": str(e)} 
     

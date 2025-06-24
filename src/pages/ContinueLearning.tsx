@@ -10,10 +10,10 @@ const imageFiles = [
 ];
 
 const learningProgressData = [
-    { category: "Basic Greetings", progress: 85, total: 20 },
-    { category: "Daily Conversations", progress: 60, total: 35 },
-    { category: "Emergency Signs", progress: 40, total: 15 },
-    { category: "Professional Terms", progress: 25, total: 50 },
+    { category: "Basic Greetings", progress: 0, total: 20 },
+    { category: "Daily Conversations", progress: 0, total: 35 },
+    { category: "Emergency Signs", progress: 0, total: 15 },
+    { category: "Professional Terms", progress: 0, total: 50 },
 ];
 
 const ContinueLearning = () => {
@@ -64,10 +64,10 @@ const ContinueLearning = () => {
                 </CardHeader>
                 <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                      <div><div className="text-2xl font-bold">127</div><p className="text-sm text-gray-600 dark:text-gray-400">Translations</p></div>
-                      <div><div className="text-2xl font-bold">45</div><p className="text-sm text-gray-600 dark:text-gray-400">Signs Learned</p></div>
-                      <div><div className="text-2xl font-bold">3.2h</div><p className="text-sm text-gray-600 dark:text-gray-400">Study Time</p></div>
-                      <div><div className="text-2xl font-bold">97%</div><p className="text-sm text-gray-600 dark:text-gray-400">Accuracy</p></div>
+                      <div><div className="text-2xl font-bold">0</div><p className="text-sm text-gray-600 dark:text-gray-400">Translations</p></div>
+                      <div><div className="text-2xl font-bold">0</div><p className="text-sm text-gray-600 dark:text-gray-400">Signs Learned</p></div>
+                      <div><div className="text-2xl font-bold">0h</div><p className="text-sm text-gray-600 dark:text-gray-400">Study Time</p></div>
+                      <div><div className="text-2xl font-bold">0%</div><p className="text-sm text-gray-600 dark:text-gray-400">Accuracy</p></div>
                     </div>
                 </CardContent>
               </Card>
@@ -98,10 +98,10 @@ const ContinueLearning = () => {
               <Card className="bg-white dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
                 <CardHeader><CardTitle className="text-lg text-gray-800 dark:text-cyan-400">Today's Goal</CardTitle></CardHeader>
                 <CardContent className="text-center">
-                  <div className="text-3xl font-bold mb-2">8/10</div>
+                  <div className="text-3xl font-bold mb-2">0/10</div>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">New signs to learn</p>
-                  <Progress value={80} className="h-3" />
-                  <p className="text-xs text-gray-500 mt-2">2 more to reach your daily goal!</p>
+                  <Progress value={0} className="h-3" />
+                  <p className="text-xs text-gray-500 mt-2">10 more to reach your daily goal!</p>
                 </CardContent>
               </Card>
 
@@ -109,8 +109,7 @@ const ContinueLearning = () => {
               <Card className="bg-white dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
                 <CardHeader><CardTitle className="flex items-center text-gray-800 dark:text-cyan-400"><Award className="h-5 w-5 mr-2" />Recent Achievements</CardTitle></CardHeader>
                 <CardContent className="space-y-3">
-                  <div className="flex items-center space-x-3"><div className="w-8 h-8 bg-yellow-100/20 rounded-full flex items-center justify-center"><Award className="h-4 w-4 text-yellow-400" /></div><p>5-Day Signing Streak</p></div>
-                  <div className="flex items-center space-x-3"><div className="w-8 h-8 bg-green-100/20 rounded-full flex items-center justify-center"><Play className="h-4 w-4 text-green-400" /></div><p>First Conversation</p></div>
+                  <p className="text-sm text-gray-500 text-center">No achievements yet. Keep learning!</p>
                 </CardContent>
               </Card>
             </div>

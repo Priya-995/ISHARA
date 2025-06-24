@@ -144,7 +144,7 @@ const Login = () => {
 
         <Button
           onClick={handleGoogleSignIn}
-          className="w-full bg-white text-black font-semibold rounded-full h-10 hover:bg-gray-200"
+          className="w-full bg-white text-black dark:text-gray-900 font-semibold rounded-full h-10 hover:bg-gray-200"
         >
           <GoogleIcon />
           Sign in with Google
