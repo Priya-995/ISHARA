@@ -32,11 +32,13 @@ Despite limited datasets and language variation across regions, we aim to:
 Build an end-to-end system that supports sign-to-text/speech and text/speech-to-sign translation
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-📸 **Screenshots**
+📸 Screenshots
 
-ScreenShot/HomePage.png
+### 🖥️ App Interface
+![App Interface](ScreenShot/HomePage.png)
 
-ScreenShot/Dashboard.png
+### 📂 Dashboard
+![Dashboard](ScreenShot/Dashboard.jpg)
 
 ### 
 
