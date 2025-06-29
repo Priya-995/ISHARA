@@ -21,8 +21,8 @@ app.add_middleware(
 
 # Load the trained model and label encoder
 try:
-    model = tf.keras.models.load_model('F:/ISHARA/backend/kri.h5')
-    with open('F:/ISHARA/backend/krishnav.pkl', 'rb') as f:
+   model = tf.keras.models.load_model('kri.h5')
+with open('krishnav.pkl', 'rb') as f:
         label_encoder = pickle.load(f)
     print("Model and label encoder loaded successfully.")
 except Exception as e:
